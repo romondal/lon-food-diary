@@ -46,7 +46,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
 
 .device{width:392px;height:min(852px,calc(100vh - 48px));padding:11px;border-radius:46px;background:linear-gradient(145deg,#946640,#6E4826 60%,#5A3A1E);box-shadow:0 30px 60px -20px rgba(60,35,10,.45),0 2px 0 rgba(255,255,255,.15) inset;position:relative}
 .device::before{content:"";position:absolute;inset:5px;border-radius:41px;border:1.5px dashed rgba(240,214,180,.55);pointer-events:none}
-.app{position:relative;height:100%;border-radius:36px;overflow:hidden;background:var(--paper);background-image:var(--noise);display:flex;flex-direction:column;isolation:isolate}
+.app{position:relative;height:100%;border-radius:36px;overflow:hidden;overflow:clip;background:var(--paper);background-image:var(--noise);display:flex;flex-direction:column;isolation:isolate}
 
 @media (max-width:899px){
   .stage{display:block;padding:0;height:100%}
@@ -128,8 +128,9 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .partial svg{flex:none;width:14px;height:14px;margin-top:1px}
 .unit-toggle{font:inherit;color:var(--leather);font-weight:600;border-bottom:1px dotted currentColor;letter-spacing:.16em}
 
-.summary.met .minor,.summary.met .partial{padding-right:76px}
-.done-stamp{position:absolute;right:-8px;bottom:-34px;width:104px;height:104px;color:var(--green);pointer-events:none;filter:url(#inky);opacity:.88;transform:rotate(-14deg)}
+.summary.met{padding-bottom:78px}
+.met-note{position:absolute;left:16px;bottom:22px;font-family:var(--f-hand);font-size:21px;color:var(--green);transform:rotate(-2deg)}
+.done-stamp{position:absolute;right:2px;bottom:-6px;z-index:2;width:104px;height:104px;color:var(--green);pointer-events:none;filter:url(#inky);opacity:.88;transform:rotate(-14deg)}
 .done-stamp.play{animation:stampIn .55s cubic-bezier(.3,1.6,.5,1) both}
 @keyframes stampIn{0%{opacity:0;transform:scale(2.2) rotate(-30deg)}60%{opacity:.95;transform:scale(.92) rotate(-12deg)}100%{opacity:.88;transform:scale(1) rotate(-14deg)}}
 .blot{position:absolute;inset:10px;border-radius:50%;background:radial-gradient(circle,rgba(46,111,64,.14),transparent 70%);animation:blot .8s ease-out both}
@@ -315,6 +316,13 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .prices{display:flex;flex-wrap:wrap;gap:6px;padding:12px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
 .price{font-size:12px;border:1px solid var(--paper-3);background:var(--card);border-radius:8px;padding:5px 8px;display:flex;gap:6px;align-items:center}
 .price b{font-variant-numeric:tabular-nums}
+.sold-lbl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);align-self:center;margin-right:2px}
+/* catalogue category chips: beige pills, green when selected */
+.cat-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0 8px;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.cat-chips::-webkit-scrollbar{display:none}
+.cat-chip{flex:none;padding:8px 16px;border-radius:999px;background:#EFE8DB;color:var(--ink);font-size:14px;font-weight:500;line-height:1.2;white-space:nowrap;transition:background .15s,color .15s}
+.cat-chip:hover{background:#E6DDCC}
+.cat-chip[aria-pressed="true"]{background:var(--green);color:#fff}
 .rdot{width:8px;height:8px;border-radius:50%}
 .sec{padding:20px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
 .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
@@ -334,9 +342,27 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .ing-card .muted{color:var(--ink-3)}
 
 .logbox{background:var(--card);border-radius:4px;padding:14px;box-shadow:0 10px 22px -16px rgba(70,45,15,.5);position:relative}
-.log-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:12px}
-.portion{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin:12px 0 12px;font-variant-numeric:tabular-nums}
-.portion b{color:var(--ink);font-size:13px}
+/* "Write it in your diary": aligned two-column form, a 4-column portion summary and equal-height actions */
+.log-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px}
+.log-date{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.log-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);column-gap:14px;row-gap:6px;align-items:end}
+.log-grid .log-span{grid-column:1/-1}
+.log-grid .field:last-child{margin-top:8px}
+.log-grid .inp{height:42px;font-size:16px;padding-top:6px;padding-bottom:6px;min-width:0}
+.log-grid select.inp{text-overflow:ellipsis;white-space:nowrap}
+.log-grid .field-hint{margin-top:0}
+.log-grid #qErr:empty,.log-grid .field-hint:empty{display:none}
+.portion{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:16px 0 14px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);font-variant-numeric:tabular-nums}
+.portion>div{padding:9px 6px 8px;text-align:center;border-left:1px dashed var(--ink-faint)}
+.portion>div:first-child{border-left:0}
+.portion small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.portion b{font-size:17px;color:var(--ink);font-weight:600}
+.portion span{font-size:11px;color:var(--ink-3);margin-left:2px}
+.portion-note{grid-column:1/-1;margin:0;padding:6px 0 8px;text-align:center;font-size:11.5px;color:var(--ink-3);border-top:1px dashed var(--ink-faint)}
+.portion>.portion-note:only-child{border-top:0}
+.log-actions{display:grid;grid-template-columns:auto 1fr;gap:8px}
+.log-actions.three{grid-template-columns:auto auto 1fr}
+.log-actions .btn{height:46px;padding-left:16px;padding-right:16px}
 .fail{margin-top:12px;background:var(--red-l);border-radius:10px;padding:12px;color:#6E241B;font-size:13px;line-height:1.45}
 .fail b{display:block;margin-bottom:2px}
 .fail .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
@@ -354,6 +380,44 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .allergens{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .al-chip{font-size:11.5px;font-weight:600;color:var(--red-ink);border:1.5px solid currentColor;border-radius:6px;padding:3px 8px;filter:url(#inky)}
 .al-may{color:var(--ink-3);border-style:dashed}
+/* vitamins & minerals */
+.claims{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.claim{font-size:11.5px;font-weight:600;color:var(--green);background:var(--green-l);border-radius:999px;padding:4px 10px}
+.micro-head{display:flex;justify-content:space-between;font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);padding-bottom:6px;border-bottom:2px solid var(--ink)}
+.micro-g{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--leather);padding:12px 0 4px}
+.micro{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.9fr) minmax(0,1fr) 42px;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--rule);font-size:13px;font-variant-numeric:tabular-nums}
+.micro .mn{min-width:0}
+.micro .mv{text-align:right;font-weight:600}
+.micro .mv small{font-weight:400;color:var(--ink-3);font-size:11px}
+.micro .mbar{height:6px;border-radius:3px;background:repeating-linear-gradient(90deg,var(--paper-3) 0 3px,transparent 3px 5px);position:relative;overflow:hidden}
+.micro .mbar i{position:absolute;inset:0 auto 0 0;background:var(--green);border-radius:3px}
+.micro .mp{text-align:right;color:var(--ink-2)}
+.micro-note,.micro-none{font-size:11px;color:var(--ink-3);line-height:1.45;margin:8px 0 0}
+.micro-none{font-size:12.5px;padding:10px 0;border-top:1px solid var(--rule)}
+/* daily vitamins & minerals in the summary card */
+.day-micro{margin-top:10px;border-top:1px dashed var(--ink-faint)}
+.day-micro>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto 18px;align-items:center;gap:8px;padding:10px 0 2px;font-size:12.5px;font-weight:600}
+.day-micro>summary::-webkit-details-marker{display:none}
+.day-micro>summary svg{width:16px;height:16px;color:var(--ink-2);transition:transform .2s}
+.day-micro[open]>summary svg{transform:rotate(180deg)}
+.dm-sum{font-size:11.5px;font-weight:400;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.dm-list{display:grid;gap:7px;padding:10px 0 2px}
+.dm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 66px 38px;align-items:center;gap:8px;font-size:12px;font-variant-numeric:tabular-nums}
+.dm-bar{height:6px;border-radius:3px;background:repeating-linear-gradient(90deg,var(--paper-3) 0 3px,transparent 3px 5px);position:relative;overflow:hidden}
+.dm-bar i{position:absolute;inset:0 auto 0 0;border-radius:3px;background:var(--c)}
+.dm-v{text-align:right;color:var(--ink-2)}
+.dm-p{text-align:right;font-weight:600}
+.dm-note{font-size:11px;color:var(--ink-3);line-height:1.45;margin:8px 0 0}
+/* accordion */
+.acc{border-top:1px solid var(--ink);border-bottom:1px solid var(--rule)}
+.acc>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:10px;padding:12px 0}
+.acc>summary::-webkit-details-marker{display:none}
+.acc>summary h4{font-family:var(--f-display);font-weight:600;font-size:18px;margin:0;grid-column:1}
+.acc-sub{grid-column:1;font-size:12px;color:var(--ink-3);margin-top:2px}
+.acc-chev{grid-column:2;grid-row:1/3;width:20px;height:20px;color:var(--ink-2);transition:transform .2s}
+.acc[open] .acc-chev{transform:rotate(180deg)}
+.acc>summary:focus-visible{outline:2px solid var(--leather);outline-offset:2px;border-radius:4px}
+.acc .src{padding:2px 0 14px;animation:inkIn .25s ease-out}
 .src{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:12.5px;margin:0}
 .src dt{color:var(--ink-3)}
 .src dd{margin:0;min-width:0}
@@ -375,7 +439,7 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .found .ph{width:40px;height:46px}
 .bc .ph{width:100%;height:76px}
 .saved-card li{align-items:center}
-.saved-card li .ph{width:26px;height:30px;padding:2px;display:inline-block;vertical-align:middle;margin-right:8px}
+.saved-card li .ph{width:30px;height:34px;padding:2px}
 .saved-card li .ph>img{inset:2px;width:calc(100% - 4px);height:calc(100% - 4px)}
 .credit{font-size:10.5px;color:var(--ink-3);margin-top:6px;line-height:1.4}
 .credit a{color:inherit}
@@ -390,8 +454,10 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .saved-card h3{font-family:var(--f-display);font-weight:600;font-size:19px;margin:0 0 2px}
 .saved-card .k{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
 .saved-card ul{list-style:none;margin:10px 0 12px;padding:0;font-size:13px;display:grid;gap:4px}
-.saved-card li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dotted var(--ink-faint);padding-bottom:4px}
-.saved-card li span:last-child{color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.saved-card li{display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;column-gap:10px;border-bottom:1px dotted var(--ink-faint);padding:4px 0 6px}
+.si-nm{min-width:0;line-height:1.3}
+.si-nm small{display:block;font-size:11.5px;color:var(--ink-3)}
+.si-q{color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;font-size:12.5px}
 .sm-row{display:grid;grid-template-columns:22px 1fr 74px 50px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font-size:13px}
 .sm-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--green)}
 .sm-row .inp{font-size:15px;padding:4px 2px;text-align:right}
@@ -407,6 +473,7 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .setrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--rule);font-size:13.5px;flex-wrap:wrap}
 .setrow:last-child{border-bottom:0}
 .setrow small{display:block;color:var(--ink-3);font-size:11.5px;margin-top:2px}
+.setrow>.seg,.setrow>.btn{margin-left:auto}
 .spark{width:100%;height:110px;display:block}
 
 /* month calendar */
@@ -656,7 +723,7 @@ const P = [
   n:{kcal:217,kj:904,protein:17,carbs:1,sugars:0.5,fat:16,sat:6,fibre:null,salt:3.0},
   ing:"Irish Pork (87%), Water, Salt, Preservatives (Sodium Nitrite, Potassium Nitrate), Antioxidant (Sodium Ascorbate).",allergens:[],may:[],
   i3:[{n:"Irish pork loin",t:"pork",pct:87},{n:"Water",t:"water"},{n:"Salt",t:"salt",note:"Rashers are cured: 3 g salt per 100 g."},{n:"Nitrite & nitrate",t:"additive",note:"Curing preservatives."}]},
- {id:"bananas",name:"Bananas, loose",brand:"Fresh produce",retail:{tesco:1.79,dunnes:1.69,supervalu:1.79},priceUnit:"/kg",source:"Generic produce values (no pack label)",pack:"Loose, priced per kg",packAmt:1000,basis:"g",servings:[{l:"medium banana",s:120}],shape:"fruit",color:"#F2D04B",ink:"#6B4E12",
+ {id:"bananas",name:"Bananas, loose",brand:"Fresh produce",retail:{tesco:1.79,dunnes:1.69,supervalu:1.79},priceUnit:"/kg",source:"Generic produce values (no pack label)",pack:"Loose, sold by weight",packAmt:1000,basis:"g",servings:[{l:"medium banana",s:120}],shape:"fruit",color:"#F2D04B",ink:"#6B4E12",
   n:{kcal:89,kj:372,protein:1.1,carbs:20.3,sugars:17.2,fat:0.3,sat:0.1,fibre:2.6,salt:0},
   ing:"Banana.",allergens:[],may:[],
   i3:[{n:"Banana",t:"banana",pct:100,count:2}]},
@@ -672,11 +739,74 @@ const P = [
   n:{kcal:131,kj:547,protein:12.6,carbs:0.1,sugars:0.1,fat:9.0,sat:2.6,fibre:0,salt:0.36},
   ing:"Free Range *Eggs*.",allergens:["Eggs"],may:[],
   i3:[{n:"Irish free range egg",t:"egg",pct:100,a:"Eggs",note:"Hens fed a diet with added omega 3.",count:2}]},
- {id:"tomatoes",name:"Vine Tomatoes, loose",brand:"Fresh produce",retail:{tesco:3.49,dunnes:3.39,supervalu:3.49},priceUnit:"/kg",source:"Generic produce values (no pack label)",pack:"Loose, priced per kg",packAmt:1000,basis:"g",servings:[{l:"medium tomato",s:85}],shape:"fruit",color:"#D6362A",ink:"#3E7A3A",
+ {id:"tomatoes",name:"Vine Tomatoes, loose",brand:"Fresh produce",retail:{tesco:3.49,dunnes:3.39,supervalu:3.49},priceUnit:"/kg",source:"Generic produce values (no pack label)",pack:"Loose, sold by weight",packAmt:1000,basis:"g",servings:[{l:"medium tomato",s:85}],shape:"fruit",color:"#D6362A",ink:"#3E7A3A",
   n:{kcal:18,kj:75,protein:0.9,carbs:3.1,sugars:2.6,fat:0.2,sat:null,fibre:1.2,salt:0.01},
   ing:"Tomatoes.",allergens:[],may:[],
   i3:[{n:"Tomato",t:"tomato",pct:100,count:3}]},
+ {id:"donegal-cod",name:"Breaded Cod, 4 Atlantic Fillets",brand:"Donegal Catch",retail:{tesco:1,dunnes:1,supervalu:1},source:"Pack label via Open Food Facts (fibre figure looked wrong, so it's left out)",pack:"4 fillets",packAmt:380,basis:"g",servings:[{l:"fillet",s:95}],shape:"bag",color:"#1E4F9A",ink:"#FFFFFF",cats:["Fish","Frozen"],
+  n:{kcal:217,kj:909,protein:13,carbs:21,sugars:0.4,fat:8.7,sat:1.1,fibre:null,salt:0.72},
+  ing:"Cod (Gadus morhua) (*Fish*) (52%), *Wheat* Flour (*Wheat* Flour, Calcium Carbonate, Iron, Niacin, Thiamin), Water, Rapeseed Oil, Salt, Yeast, Yeast Extract, *Wheat* Starch, Garlic Powder, Onion Powder, Pepper, *Mustard* Powder, Flavourings, Raising Agents (Disodium Diphosphate, Sodium Bicarbonate).",allergens:["Fish","Wheat (gluten)","Mustard"],may:["May contain small bones"],
+  i3:[{n:"Atlantic cod",t:"cod",pct:52,a:"Fish",note:"Caught in the North Atlantic and coated in crumb."},{n:"Wheat flour crumb",t:"wheat",a:"Gluten",note:"Fortified with calcium, iron, niacin and thiamin."},{n:"Water",t:"water"},{n:"Rapeseed oil",t:"oil"},{n:"Salt",t:"salt"},{n:"Yeast",t:"yeast"},{n:"Garlic, onion and pepper",t:"spice"},{n:"Mustard powder",t:"mustard",a:"Mustard"}]},
+ {id:"tesco-salmon",name:"2 Boneless Salmon Fillets",brand:"Tesco",retail:{tesco:1},source:"Pack label via Open Food Facts",pack:"260 g, 2 fillets",packAmt:260,basis:"g",servings:[{l:"fillet",s:94}],shape:"tray",color:"#2A4D7A",ink:"#FFFFFF",cats:["Fish"],
+  n:{kcal:209,kj:874,protein:25.3,carbs:0,sugars:0,fat:12,sat:1.6,fibre:0,salt:0.13},
+  ing:"Salmon (*Fish*).",allergens:["Fish"],may:[],
+  i3:[{n:"Atlantic salmon",t:"salmon",pct:100,a:"Fish",note:"An oily fish: a good source of omega-3 fats and vitamin D.",count:2}]},
+ {id:"batchelors-beans",name:"Beans, No Added Sugar",brand:"Batchelors",retail:{tesco:1,dunnes:1,supervalu:1},source:"Pack label via Open Food Facts (fibre not stated)",pack:"2 × 112.5 g pots",packAmt:225,basis:"g",servings:[{l:"pot (112.5 g)",s:112.5}],shape:"tub",color:"#1E9FB2",ink:"#FFFFFF",cats:["Tins & pantry"],
+  n:{kcal:70,kj:261,protein:4.5,carbs:10,sugars:1.7,fat:0.4,sat:0.08,fibre:null,salt:0.8},
+  ing:"Beans (56%), Tomatoes (34%), Water, Modified Starch, Acidity Regulator: Acetic Acid.",allergens:[],may:[],
+  i3:[{n:"Haricot beans",t:"bean",pct:56,note:"Beans count towards your 5 a day."},{n:"Tomatoes",t:"tomato",pct:34},{n:"Water",t:"water"},{n:"Modified starch",t:"additive",note:"Thickens the sauce."},{n:"Acetic acid",t:"vinegar",note:"Acidity regulator, the acid in vinegar."}]},
+ {id:"tesco-stew",name:"Irish Stew",brand:"Tesco",retail:{tesco:1},source:"Pack label via Open Food Facts (ingredients not listed)",pack:"Tin",packAmt:400,basis:"g",servings:[{l:"half tin (200 g)",s:200}],shape:"tin",color:"#6E3F24",ink:"#FFFFFF",cats:["Ready meals","Tins & pantry"],ingUnknown:true,
+  n:{kcal:102,kj:425,protein:5.9,carbs:6.8,sugars:1.5,fat:5.5,sat:2.8,fibre:0.8,salt:0.48},
+  ing:"The source doesn't list the ingredients. The tin describes mutton cooked in a rich, meaty gravy with chunky vegetables.",allergens:[],may:[],
+  i3:[{n:"Mutton",t:"pork",note:"Typical ingredient. The listing doesn't give the full recipe."},{n:"Potatoes",t:"potato",note:"Typical ingredient."},{n:"Carrots",t:"carrot",note:"Typical ingredient."},{n:"Onions",t:"onion",note:"Typical ingredient."},{n:"Gravy",t:"gravy",note:"Rich, meaty gravy, as described on the tin."}]},
 ];
+const CATS=["Bakery","Breakfast","Dairy","Drinks","Fish","Frozen","Fruit & veg","Meat","Ready meals","Snacks","Tins & pantry"];
+const CAT_OF={brennans:["Bakery"],"sv-soda":["Bakery"],flahavans:["Breakfast"],avonmore:["Dairy"],kerrygold:["Dairy"],glenisk:["Dairy","Breakfast"],"tesco-cheddar":["Dairy"],eggs:["Dairy","Breakfast"],
+  barrys:["Drinks"],denny:["Meat","Breakfast"],"tesco-rashers":["Meat","Breakfast"],clonakilty:["Meat","Breakfast"],"clonakilty-white":["Meat","Breakfast"],"dunnes-chicken":["Meat"],
+  bananas:["Fruit & veg"],rooster:["Fruit & veg"],tomatoes:["Fruit & veg"],tayto:["Snacks"],cadbury:["Snacks"],ballymaloe:["Tins & pantry"]};
+P.forEach(p=>{ if(!p.cats) p.cats=CAT_OF[p.id]||[]; });
+/* Vitamins and minerals: EU Nutrient Reference Values (Reg. 1169/2011) and typical values per 100 g/ml.
+   Packs declare only some of these, so values come from food composition data unless the pack is fortified. */
+const MICRO=[
+  {k:"vitA",l:"Vitamin A",u:"µg",nrv:800,g:"Vitamins"},{k:"vitD",l:"Vitamin D",u:"µg",nrv:5,g:"Vitamins"},{k:"vitE",l:"Vitamin E",u:"mg",nrv:12,g:"Vitamins"},
+  {k:"vitC",l:"Vitamin C",u:"mg",nrv:80,g:"Vitamins"},{k:"thiamin",l:"Thiamin (B1)",u:"mg",nrv:1.1,g:"Vitamins"},{k:"riboflavin",l:"Riboflavin (B2)",u:"mg",nrv:1.4,g:"Vitamins"},
+  {k:"niacin",l:"Niacin (B3)",u:"mg",nrv:16,g:"Vitamins"},{k:"b6",l:"Vitamin B6",u:"mg",nrv:1.4,g:"Vitamins"},{k:"folate",l:"Folate",u:"µg",nrv:200,g:"Vitamins"},
+  {k:"b12",l:"Vitamin B12",u:"µg",nrv:2.5,g:"Vitamins"},
+  {k:"calcium",l:"Calcium",u:"mg",nrv:800,g:"Minerals"},{k:"iron",l:"Iron",u:"mg",nrv:14,g:"Minerals"},{k:"magnesium",l:"Magnesium",u:"mg",nrv:375,g:"Minerals"},
+  {k:"phosphorus",l:"Phosphorus",u:"mg",nrv:700,g:"Minerals"},{k:"potassium",l:"Potassium",u:"mg",nrv:2000,g:"Minerals"},{k:"zinc",l:"Zinc",u:"mg",nrv:10,g:"Minerals"},
+  {k:"iodine",l:"Iodine",u:"µg",nrv:150,g:"Minerals"},{k:"selenium",l:"Selenium",u:"µg",nrv:55,g:"Minerals"}];
+const MK=Object.fromEntries(MICRO.map(m=>[m.k,m]));
+const MICROS={
+  brennans:{calcium:150,iron:1.6,thiamin:.25,niacin:1.7,potassium:110,magnesium:24,zinc:.7},
+  avonmore:{vitA:36,riboflavin:.18,b12:.4,calcium:120,phosphorus:95,potassium:150,iodine:30},
+  kerrygold:{vitA:770,vitD:.9,vitE:2},
+  flahavans:{thiamin:.6,iron:4.2,magnesium:130,phosphorus:410,potassium:360,zinc:3.4},
+  denny:{niacin:4,b12:.8,iron:1.1,zinc:1.6,phosphorus:150},
+  clonakilty:{iron:7,zinc:1.3,potassium:150},
+  "clonakilty-white":{iron:1.2,zinc:.9},
+  tayto:{vitC:8,vitE:4.5,potassium:1100,magnesium:50},
+  "dunnes-chicken":{niacin:12,b6:.6,b12:.3,phosphorus:220,potassium:370,selenium:16},
+  glenisk:{riboflavin:.2,b12:.4,calcium:150,phosphorus:120,potassium:180,iodine:30},
+  cadbury:{calcium:220,iron:1.5,magnesium:50,potassium:350},
+  "sv-soda":{thiamin:.2,calcium:70,iron:2,magnesium:70,potassium:300,zinc:1.6},
+  "tesco-cheddar":{vitA:360,riboflavin:.4,b12:1.1,calcium:720,phosphorus:490,zinc:4.1,iodine:30},
+  ballymaloe:{vitC:5,potassium:250},
+  "tesco-rashers":{thiamin:.6,niacin:5,b12:.7,iron:.6,zinc:2,phosphorus:190,potassium:270},
+  bananas:{vitC:8.7,b6:.37,folate:20,potassium:358,magnesium:27},
+  rooster:{vitC:11,b6:.3,folate:16,potassium:420,magnesium:22,iron:.8},
+  eggs:{vitA:126,vitD:3.2,riboflavin:.47,folate:47,b12:1.6,iron:1.7,phosphorus:200,zinc:1.3,iodine:52,selenium:23},
+  tomatoes:{vitA:42,vitC:14,vitE:.5,folate:15,potassium:237},
+  "donegal-cod":{niacin:2,b12:.8,iron:.7,phosphorus:160,potassium:240,iodine:60,selenium:20},
+  "tesco-salmon":{vitD:7,niacin:8,b6:.6,b12:3.2,phosphorus:250,potassium:360,iodine:15,selenium:24},
+  "batchelors-beans":{folate:20,calcium:45,iron:1.4,magnesium:30,potassium:300,zinc:.6},
+  "tesco-stew":{vitA:150,b12:.8,iron:1,potassium:200,zinc:1.5}
+};
+P.forEach(p=>{ if(!p.m) p.m=MICROS[p.id]||{}; });
+/** Vitamins and minerals in a portion (base amount in g/ml). Unknown values stay out. */
+const microFor=(p,amt)=>Object.fromEntries(Object.entries(p.m||{}).map(([k,v])=>[k,v*amt/100]));
+const fmtMicro=v=>v>=100?Math.round(v).toLocaleString("en-IE"):v>=10?(Math.round(v*10)/10).toString():v>=1?(Math.round(v*10)/10).toString():(Math.round(v*100)/100).toString();
+/** EU claim wording: at least 15% of the NRV per 100 g is a "source", 30% is "high". */
+const microClaims=p=>Object.entries(p.m||{}).map(([k,v])=>({k,pct:v/MK[k].nrv*100})).filter(x=>x.pct>=15).sort((a,b)=>b.pct-a.pct).map(x=>`${x.pct>=30?"High in":"Source of"} ${MK[x.k].l.replace(/ \(.*\)/,"").replace(/^Vitamin/,"vitamin").replace(/^(?!vitamin)./,c=>c.toLowerCase())}`);
 const PM = Object.fromEntries(P.map(p=>[p.id,p]));
 /* Real photos bundled with the page. Pack shots from Open Food Facts (CC BY-SA 3.0); produce and plate from Wikimedia Commons. */
 const IMG = {
@@ -689,6 +819,8 @@ const IMG = {
   "tesco-cheddar":{src:"img/cheddar.jpg",off:"5059697735707"}, barrys:{src:"img/barrys.jpg",off:"5099810020006"},
   ballymaloe:{src:"img/ballymaloe.jpg",off:"5099229000286"}, "tesco-rashers":{src:"img/rashers.jpg",off:"5057624093333"},
   rooster:{src:"img/rooster.jpg",off:"5099874098348"}, eggs:{src:"img/eggs.jpg",off:"5057753305567"},
+  "donegal-cod":{src:"img/cod.jpg",off:"5397199002010"}, "tesco-salmon":{src:"img/salmon.jpg",off:"5057373699688"},
+  "batchelors-beans":{src:"img/beans.jpg",off:"5011001296786"}, "tesco-stew":{src:"img/stew.jpg",off:"5057753900182"},
   bananas:{src:"img/bananas.jpg",cover:1,by:"Wilfredor",lic:"CC0",url:"https://commons.wikimedia.org/wiki/File:Bunch_of_bananas_on_sale.jpg"},
   tomatoes:{src:"img/tomatoes.jpg",cover:1,by:"Maksym Kozlenko",lic:"CC BY-SA 4.0",url:"https://commons.wikimedia.org/wiki/File:Truss_tomatoes.jpg"}
 };
@@ -992,6 +1124,8 @@ function renderDiary(anim){
       <div class="energy-bar"><div class="row"><span>${eNow>eTarget?`${Math.round(eNow-eTarget).toLocaleString("en-IE")} ${eu} over`:`${Math.round(eTarget-eNow).toLocaleString("en-IE")} ${eu} left`}</span><span class="num">${Math.round(pct*100)}%</span></div><div class="bar"><i style="width:${Math.min(100,pct*100)}%;--c:${over?"#A3372A":"#2E6F40"}"></i></div></div>
       <div class="minor">${minor("Sugars","sugars")}${minor("Sat fat","sat")}${minor("Fibre","fibre")}${minor("Salt","salt")}</div>
       ${missingNames.length?`<div class="partial">${IC.info}<span>* Partial: ${[...new Set(missingNames)].length>3?"some items don't list every value":"not every item lists "+[...new Set(missingNames)].join(", ").toLowerCase()}. Those totals only count items that do.</span></div>`:""}
+      ${dayMicrosHTML(entries)}
+      ${met?`<span class="met-note">Target met. Well done!</span>`:""}
       ${met?`<div class="done-stamp ${S.stamped[k]?"":"play"}" aria-label="Daily target met"><span class="blot"></span>${stampSVG(k)}</div>`:""}
     </div>
     ${weigh}
@@ -1000,6 +1134,17 @@ function renderDiary(anim){
   </article>`;
   if(met && !S.stamped[k]){ S.stamped[k]=1; persist(); setTimeout(()=>{sndStamp();buzz([10,40,25]);},120); }
   if(anim){ const pg=$("#page"); pg.classList.add(anim); pg.addEventListener("animationend",()=>pg.classList.remove(anim),{once:true}); }
+}
+/** Collapsible "Vitamins & minerals" for the day: % of the EU reference value from foods with known values. */
+const DAY_MICROS=["calcium","iron","potassium","magnesium","vitC","vitD","b12","folate"];
+let microOpen=false;
+function dayMicrosHTML(entries){
+  if(!entries.length) return "";
+  const tot={}; let unknown=0;
+  entries.forEach(e=>{ const p=PM[e.pid]; if(!p) return; if(!Object.keys(p.m||{}).length){ unknown++; return; } const amt=baseAmount(p,e.qty,e.unit); Object.entries(microFor(p,amt)).forEach(([k,v])=>tot[k]=(tot[k]||0)+v); });
+  const rows=DAY_MICROS.map(k=>{ const m=MK[k], v=tot[k]||0, pct=v/m.nrv*100; return `<div class="dm"><span>${m.l}</span><span class="dm-bar"><i style="width:${Math.min(100,pct)}%;--c:${pct>=100?"#2E6F40":pct>=50?"#8B5E34":"#B9A27E"}"></i></span><span class="dm-v">${fmtMicro(v)} ${m.u}</span><span class="dm-p">${Math.round(pct)}%</span></div>`; }).join("");
+  return `<details class="day-micro" ${microOpen?"open":""}><summary><span>Vitamins &amp; minerals</span><span class="dm-sum">${DAY_MICROS.filter(k=>(tot[k]||0)>=MK[k].nrv).length} of ${DAY_MICROS.length} at 100% of NRV</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+    <div class="dm-list">${rows}</div><p class="dm-note">% of the EU daily Nutrient Reference Value, from typical values for each food.${unknown?` ${unknown} ${unknown>1?"items have":"item has"} no known vitamins or minerals and ${unknown>1?"aren't":"isn't"} counted.`:""}</p></details>`;
 }
 function stampSVG(k){
   return `<svg viewBox="0 0 104 104" width="104" height="104"><defs><path id="arcT" d="M52 52 m-36 0 a36 36 0 1 1 72 0"/><path id="arcB" d="M52 52 m-38 0 a38 38 0 0 0 76 0"/></defs>
@@ -1024,6 +1169,8 @@ function goDate(nk){
   setTimeout(()=>{S.viewDate=nk;screens.scrollTop=0;renderDiary(dir>0?"turn-in-next":"turn-in-prev");},dir>0?230:190);
 }
 
+// remember whether the day's vitamins & minerals section is open as the page re-renders
+screens.addEventListener("toggle",e=>{ if(e.target.classList&&e.target.classList.contains("day-micro")) microOpen=e.target.open; },true);
 /* swipe */
 let sx=null,sy=0;
 screens.addEventListener("pointerdown",e=>{if(S.tab!=="diary"||e.target.closest("input,button.unit-toggle"))return;sx=e.clientX;sy=e.clientY;});
@@ -1059,7 +1206,7 @@ screens.addEventListener("click",e=>{
     if(!b.dataset.armed){ b.dataset.armed=1; b.classList.add("btn-armed"); b.textContent="Tap again: deletes your diary"; b.insertAdjacentHTML("afterend",`<button class="btn btn-sm btn-ghost" data-act="reset-cancel">Cancel</button>`); return; }
     const email=ME.email; closeProduct(); closeSheet(); deleteAccount(email); ME=null; resetState(); screens.innerHTML=""; openAuth("create"); toast("Account and diary deleted from this device");
   }
-  else if(a==="retailer"){ pantryFilter.r=b.dataset.v; renderPantry(); }
+  else if(a==="category"){ pantryFilter.c=b.dataset.v; renderPantry(); const c=$(".cat-chip[aria-pressed=\"true\"]"); c&&c.scrollIntoView({inline:"center",block:"nearest"}); }
   else if(a==="saved-rename") renameSaved(b.dataset.id);
   else if(a==="saved-delete") deleteSaved(b,b.dataset.id);
   else if(a==="weigh-cancel") renderDiary();
@@ -1182,7 +1329,7 @@ function showDetections(){
 }
 function parseVoice(text){
   const NUMS={a:1,an:1,one:1,two:2,three:3,four:4,five:5,six:6,half:.5,ten:10,twenty:20,thirty:30,forty:40,fifty:50,hundred:100};
-  const ALIAS=[["soda","sv-soda"],["brennan","brennans"],["bread","brennans"],["kerrygold","kerrygold"],["butter","kerrygold"],["porridge","flahavans"],["oat","flahavans"],["sausage","denny"],["rasher","tesco-rashers"],["bacon","tesco-rashers"],["white pudding","clonakilty-white"],["pudding","clonakilty"],["egg","eggs"],["tomato","tomatoes"],["tayto","tayto"],["crisp","tayto"],["chicken","dunnes-chicken"],["yogurt","glenisk"],["yoghurt","glenisk"],["chocolate","cadbury"],["cadbury","cadbury"],["tea","barrys"],["milk","avonmore"],["cheddar","tesco-cheddar"],["cheese","tesco-cheddar"],["relish","ballymaloe"],["banana","bananas"],["potato","rooster"],["spud","rooster"]];
+  const ALIAS=[["soda","sv-soda"],["brennan","brennans"],["bread","brennans"],["kerrygold","kerrygold"],["butter","kerrygold"],["porridge","flahavans"],["oat","flahavans"],["sausage","denny"],["rasher","tesco-rashers"],["bacon","tesco-rashers"],["salmon","tesco-salmon"],["cod","donegal-cod"],["fish","donegal-cod"],["baked bean","batchelors-beans"],["beans","batchelors-beans"],["stew","tesco-stew"],["white pudding","clonakilty-white"],["pudding","clonakilty"],["egg","eggs"],["tomato","tomatoes"],["tayto","tayto"],["crisp","tayto"],["chicken","dunnes-chicken"],["yogurt","glenisk"],["yoghurt","glenisk"],["chocolate","cadbury"],["cadbury","cadbury"],["tea","barrys"],["milk","avonmore"],["cheddar","tesco-cheddar"],["cheese","tesco-cheddar"],["relish","ballymaloe"],["banana","bananas"],["potato","rooster"],["spud","rooster"]];
   const parts=text.toLowerCase().replace(/[.!?]/g,"").split(/,| and | with | plus /).map(s=>s.trim()).filter(Boolean);
   const out=[];
   for(const part of parts){
@@ -1267,22 +1414,23 @@ function openProduct(pid,ctx={}){
   const p=PM[pid]; prodCtx={...ctx,pid,meal:ctx.meal||guessMeal()};
   const editing=!!ctx.entryId;
   const defUnit=ctx.unit||(p.servings.length?"srv:0":p.basis), defQty=ctx.qty??1;
-  const priceKg=Object.values(p.retail).map(v=>p.priceUnit?v:v/p.packAmt*1000);
-  const minPk=Math.min(...priceKg);
   ov.innerHTML=`<div class="ov-top"><button class="icon-btn" id="pBack" aria-label="${ctx.from==="add"?"Back to adding food":"Back"}">${IC.back}</button><span class="t">${editing?"Edit entry":"Product"}</span></div>
   <div class="ov-body" id="pBody">
     <div class="p-hero">${photo(p,"pack")}<div><div class="eyebrow">${esc(p.brand)}</div><h2>${esc(p.name)}</h2><div class="brand">${esc(p.pack)}</div></div></div>
-    <div class="prices">${Object.entries(p.retail).map(([r,v])=>`<span class="price"><i class="rdot" style="background:${RET[r].c}"></i>${RET[r].n} <b>${euro(v)}${p.priceUnit||""}</b></span>`).join("")}</div>
-    <div class="p-facts"><div><small>Per 100${p.basis}</small><b>${p.n.kcal} kcal</b></div><div><small>Serving</small><b>${esc(p.servings[0].l.replace(/\s*\(.*\)/,""))} · ${p.servings[0].s}${p.basis}</b></div><div><small>${p.priceUnit?"Price":"Price per "+(p.basis==="ml"?"L":"kg")}</small><b>${euro(minPk)}</b></div></div>
+    <div class="prices"><span class="sold-lbl">Sold at</span>${Object.keys(p.retail).map(r=>`<span class="price"><i class="rdot" style="background:${RET[r].c}"></i>${RET[r].n}</span>`).join("")}</div>
+    <div class="p-facts"><div><small>Per 100${p.basis}</small><b>${p.n.kcal} kcal</b></div><div><small>Serving</small><b>${esc(p.servings[0].l.replace(/\s*\(.*\)/,""))} · ${p.servings[0].s}${p.basis}</b></div><div><small>Per serving</small><b>${Math.round(p.n.kcal*p.servings[0].s/100)} kcal</b></div></div>
 
     <div class="sec"><div class="logbox" id="logbox">
-      <div class="lbl" style="margin-bottom:8px">${editing?"Change this entry":"Write it in your diary"}</div>
-      <div class="log-grid"><div class="field"><label for="qIn">Amount</label><input class="inp num" id="qIn" inputmode="decimal" maxlength="7" value="${defQty}" aria-describedby="qHint qErr"><div class="field-hint" id="qHint"></div></div>
-      <div class="field"><label for="uIn">Unit</label><select class="inp" id="uIn">${unitOptions(p).map(o=>`<option value="${o.v}" ${o.v===defUnit?"selected":""}>${esc(o.l)}</option>`).join("")}</select></div></div>
-      <div id="qErr"></div>
-      <div class="field" style="margin-top:12px"><label for="mIn">Meal · ${fmtShort(S.viewDate)}</label><select class="inp" id="mIn">${MEALS.map(m=>`<option ${m===prodCtx.meal?"selected":""}>${m}</option>`).join("")}</select></div>
-      <div class="portion" id="portion"></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">${editing?`<button class="btn btn-danger" id="delBtn">Delete</button>`:""}<button class="btn btn-line" id="cancelBtn">Cancel</button><button class="btn btn-go" style="flex:1;min-width:140px" id="logBtn">${editing?"Update entry":"Add to "+prodCtx.meal.toLowerCase()}</button></div>
+      <div class="log-head"><span class="lbl">${editing?"Change this entry":"Write it in your diary"}</span><span class="log-date">${fmtShort(S.viewDate)}</span></div>
+      <div class="log-grid">
+        <div class="field"><label for="qIn">Amount</label><input class="inp num" id="qIn" inputmode="decimal" maxlength="7" value="${defQty}" aria-describedby="qHint qErr"></div>
+        <div class="field"><label for="uIn">Unit</label><select class="inp" id="uIn">${unitOptions(p).map(o=>`<option value="${o.v}" ${o.v===defUnit?"selected":""}>${esc(o.l)}</option>`).join("")}</select></div>
+        <div class="field-hint log-span" id="qHint"></div>
+        <div id="qErr" class="log-span"></div>
+        <div class="field log-span"><label for="mIn">Meal</label><select class="inp" id="mIn">${MEALS.map(m=>`<option ${m===prodCtx.meal?"selected":""}>${m}</option>`).join("")}</select></div>
+      </div>
+      <div class="portion" id="portion" aria-live="polite"></div>
+      <div class="log-actions ${editing?"three":""}">${editing?`<button class="btn btn-danger" id="delBtn">Delete</button>`:""}<button class="btn btn-line" id="cancelBtn">Cancel</button><button class="btn btn-go" id="logBtn">${editing?"Update entry":"Add to "+prodCtx.meal.toLowerCase()}</button></div>
     </div></div>
 
     <div class="sec"><div class="sec-h"><h4>What's inside</h4><span class="eyebrow">3D view</span></div>
@@ -1292,12 +1440,13 @@ function openProduct(pid,ctx={}){
 
     <div class="sec"><div class="sec-h"><h4>Nutrition</h4><div class="seg" role="group" aria-label="Nutrition basis" id="nSeg"><button data-b="100" aria-pressed="true">100${p.basis}</button><button data-b="srv" aria-pressed="false">Serving</button><button data-b="you" aria-pressed="false">Your amount</button></div></div>
       <div id="ntab"></div></div>
+    <div class="sec"><div class="sec-h"><h4>Vitamins &amp; minerals</h4><span class="eyebrow" data-tipnrv>% NRV</span></div><div id="mtab"></div></div>
 
     <div class="sec"><div class="sec-h"><h4>Ingredients</h4></div><p class="ingredients">${esc(p.ing).replace(/\*(.+?)\*/g,"<strong>$1</strong>")}</p>
-      <div class="allergens">${p.allergens.length?p.allergens.map(a=>`<span class="al-chip">${esc(a)}</span>`).join(""):`<span style="font-size:12.5px;color:var(--ink-3)">No allergens declared.</span>`}${p.may.map(a=>`<span class="al-chip al-may">${esc(a)}</span>`).join("")}</div></div>
+      <div class="allergens">${p.allergens.length?p.allergens.map(a=>`<span class="al-chip">${esc(a)}</span>`).join(""):`<span style="font-size:12.5px;color:var(--ink-3)">${p.ingUnknown?"Allergens aren't listed in the source. Check the tin before eating.":"No allergens declared."}</span>`}${p.may.map(a=>`<span class="al-chip al-may">${esc(a)}</span>`).join("")}</div></div>
 
-    <div class="sec" style="padding-bottom:30px"><div class="sec-h"><h4>About this data</h4></div>
-      <dl class="src"><dt>Source</dt><dd>${esc(p.source)}</dd><dt>Sold at</dt><dd>${Object.keys(p.retail).map(r=>RET[r].n).join(", ")}</dd><dt>Pack size</dt><dd>${esc(p.pack)}</dd><dt>Servings</dt><dd>${p.servings.map(s=>`${esc(s.l)} = ${s.s} ${p.basis}`).join("; ")}</dd><dt>Status</dt><dd>Prototype sample values. Check against the pack.</dd>${IMG[p.id]?`<dt>Photo</dt><dd>${creditHTML(p).replace(/^Photo: /,"")}</dd>`:""}</dl></div>
+    <div class="sec" style="padding-bottom:30px"><details class="acc" id="aboutData"><summary><h4>About this data</h4><span class="acc-sub">Source, pack size, servings and photo credit</span><svg class="acc-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <dl class="src"><dt>Source</dt><dd>${esc(p.source)}</dd><dt>Sold at</dt><dd>${Object.keys(p.retail).map(r=>RET[r].n).join(", ")}</dd><dt>Pack size</dt><dd>${esc(p.pack)}</dd><dt>Servings</dt><dd>${p.servings.map(s=>`${esc(s.l)} = ${s.s} ${p.basis}`).join("; ")}</dd><dt>Status</dt><dd>Prototype sample values. Check against the pack.</dd>${IMG[p.id]?`<dt>Photo</dt><dd>${creditHTML(p).replace(/^Photo: /,"")}</dd>`:""}</dl></details></div>
   </div>`;
   ov.classList.add("show"); ov.setAttribute("aria-hidden","false");
   $("#pBack").onclick=productBack;
@@ -1309,14 +1458,26 @@ function openProduct(pid,ctx={}){
     qIn.classList.toggle("bad",!!err); $("#qErr").innerHTML=err?`<div class="ink-err" role="alert">${IC.inkErr}<span>${err}</span></div>`:"";
     logBtn.disabled=!!err;
     if(!err){const n=itemNut(p,Number(qIn.value.replace(",",".")),uIn.value);
-      $("#portion").innerHTML=`<span><b>${Math.round(energyVal(n))}</b> ${S.energy}</span><span>P <b>${g1(n.protein)}</b> g</span><span>C <b>${g1(n.carbs)}</b> g</span><span>F <b>${g1(n.fat)}</b> g</span><span style="color:var(--ink-3)">= ${g1(n.amt)} ${p.basis}</span>`;}
-    else $("#portion").innerHTML=`<span style="color:var(--ink-3)">Totals appear once the amount is valid.</span>`;
+      const cell=(l,v,u)=>`<div><small>${l}</small><b>${v}</b><span>${u}</span></div>`;
+      $("#portion").innerHTML=cell("Energy",Math.round(energyVal(n)).toLocaleString("en-IE"),S.energy)+cell("Protein",g1(n.protein),"g")+cell("Carbs",g1(n.carbs),"g")+cell("Fat",g1(n.fat),"g")+`<p class="portion-note">This portion weighs ${g1(n.amt)} ${p.basis}</p>`;}
+    else $("#portion").innerHTML=`<p class="portion-note">Totals appear once the amount is valid.</p>`;
     renderNTab();
+  };
+  const renderMicros=(amt,label)=>{
+    const keys=MICRO.filter(m=>p.m[m.k]!=null);
+    if(!keys.length){ $("#mtab").innerHTML=`<p class="micro-none">${esc(p.name)} isn't a meaningful source of vitamins or minerals, and the pack doesn't declare any.</p>`; return; }
+    const claims=microClaims(p), vals=microFor(p,amt);
+    const row=m=>{ const v=vals[m.k], pct=amt?v/m.nrv*100:0; return `<div class="micro" data-micro="${m.k}"><span class="mn">${m.l}</span><span class="mv">${amt?fmtMicro(v):"–"} <small>${m.u}</small></span><span class="mbar"><i style="width:${Math.min(100,pct)}%"></i></span><span class="mp">${amt?Math.round(pct)+"%":"–"}</span></div>`; };
+    $("#mtab").innerHTML=`${claims.length?`<div class="claims">${claims.map(c=>`<span class="claim">${c}</span>`).join("")}</div>`:""}
+      <div class="micro-head"><span>${esc(label)}</span><span>% NRV</span></div>
+      ${["Vitamins","Minerals"].map(g=>{ const ms=keys.filter(m=>m.g===g); return ms.length?`<div class="micro-g">${g}</div>${ms.map(row).join("")}`:""; }).join("")}
+      <p class="micro-note">NRV is the EU daily Nutrient Reference Value for an average adult. Values are typical for this food, from food composition data${p.id==="brennans"||p.id==="flahavans"?" and the pack's fortification":""}. Vitamins and minerals not listed aren't present in meaningful amounts or aren't known.</p>`;
   };
   const renderNTab=()=>{
     let amt=100,label=`Per 100${p.basis}`;
     if(basis==="srv"){amt=p.servings[0].s;label=`Per ${p.servings[0].l} (${amt}${p.basis})`;}
     if(basis==="you"){const e=validateQty(qIn.value,uIn.value); amt=e?0:baseAmount(p,Number(qIn.value.replace(",",".")),uIn.value); label=`Your ${g1(amt)}${p.basis}`;}
+    renderMicros(amt,label);
     $("#ntab").innerHTML=`<table class="ntab"><thead><tr><th>Typical values</th><th>${esc(label)}</th><th>%RI*</th></tr></thead><tbody>${NUT.map(n=>{
       const v=p.n[n.k]; const RI={kj:8400,kcal:2000,fat:70,sat:20,carbs:260,sugars:90,protein:50,salt:6}[n.k];
       if(v==null) return `<tr class="missing ${n.sub?"sub":""}"><td>${n.l}</td><td><span class="na">Not provided</span></td><td>–</td></tr>`;
@@ -1499,6 +1660,18 @@ function mount3D(host,p){
     egg:()=>{ const pts=[]; for(let i=0;i<=40;i++){ const t=i/40*Math.PI; pts.push(new T.Vector2(Math.max(1e-4,Math.sin(t)*.25*(1+.13*Math.cos(t))),-Math.cos(t)*.34)); }
       const shell=tx("egg",()=>paint(128,128,(x,w,h)=>{ x.fillStyle="#E7C9A1"; x.fillRect(0,0,w,h); dots(x,w,h,120,["#C9A57A","#F2DDBE","#B88B5C"],.5,2,.2,.6); }));
       const e=mesh(new T.LatheGeometry(pts,40),std({map:shell,roughness:.55,bumpMap:tx("grain",()=>grain()),bumpScale:.004})); e.rotation.z=Math.PI; return e; },
+    salmon:()=>{ const flesh=tx("salmon",()=>paint(256,256,(x,w,h)=>{ x.fillStyle="#EE7B52"; x.fillRect(0,0,w,h); x.strokeStyle="#FBD3BF"; for(let i=0;i<9;i++){ x.globalAlpha=.85; x.lineWidth=rnd(3,6); x.beginPath(); const y=i*w/9+rnd(-4,4); x.moveTo(0,y); x.bezierCurveTo(w*.3,y+18,w*.6,y-18,w,y+8); x.stroke(); } x.globalAlpha=1; dots(x,w,h,30,["#E46A40"],4,12,.15,.3); }));
+      const geo=new T.SphereGeometry(.38,40,24); geo.scale(1.4,.38,.82); displace(geo,.02,4);
+      const skin=mesh(new T.SphereGeometry(.38,40,24),std({color:0x6E7884,roughness:.4,metalness:.3})); skin.scale.set(1.38,.12,.8); skin.position.y=-.1;
+      return group(mesh(geo,glossy({map:flesh,roughness:.35,clearcoat:.5,clearcoatRoughness:.3})),skin); },
+    cod:()=>{ const crumb=tx("crumb2",()=>paint(256,256,(x,w,h)=>{ x.fillStyle="#D99A45"; x.fillRect(0,0,w,h); dots(x,w,h,900,["#B97425","#EDBE6A","#9C5E1C"],.8,3,.3,.8); }));
+      const geo=new T.SphereGeometry(.36,40,24); geo.scale(1.45,.4,.85); displace(geo,.03,9);
+      const g=group(mesh(geo,std({map:crumb,roughness:.85,bumpMap:crumb,bumpScale:.03})));
+      const inside=mesh(new T.SphereGeometry(.2,24,16),std({color:0xF4EFE6,roughness:.7})); inside.scale.set(.5,.55,1.1); inside.position.set(.48,0,0); g.add(inside); return g; },
+    bean:()=>{ const bean=glossy({color:0xD9692A,roughness:.3,clearcoat:.8}); return scatter(16,()=>{ const b=mesh(new T.SphereGeometry(.055,16,12),bean); b.scale.set(1.5,.85,1); return b; },.26,.8); },
+    carrot:()=>{ const geo=new T.ConeGeometry(.11,.62,24,8); geo.rotateX(Math.PI); displace(geo,.008,16,2); const c=mesh(geo,std({color:0xE8711E,roughness:.5,bumpMap:tx("grain",()=>grain()),bumpScale:.01}));
+      const leaf=std({color:0x4B8A2E,roughness:.6}); const g=group(c); for(let i=0;i<5;i++){ const l=mesh(new T.CylinderGeometry(.006,.012,.28,5),leaf); l.position.set(rnd(-.03,.03),.43,rnd(-.03,.03)); l.rotation.set(rnd(-.4,.4),0,rnd(-.4,.4)); g.add(l);} g.rotation.z=.5; return g; },
+    gravy:()=>liquid(glossy({color:0x5A2E14,roughness:.12})),
     additive:()=>{ // a small lab vial of white powder, standing in for E-numbers and additives
       const glass=glossy({color:0xffffff,roughness:.03,transparent:true,opacity:.28,envMapIntensity:2,depthWrite:false});
       const tube=mesh(new T.CylinderGeometry(.1,.1,.42,32,1,true),glass); tube.castShadow=false;
@@ -1509,7 +1682,7 @@ function mount3D(host,p){
   };
 
   /* ---------- the pack: shaped from the real product photo ---------- */
-  const SHAPE={box:{d:.55,r:.03,bulge:0,gloss:.1},bag:{d:.62,r:.1,bulge:.16,gloss:.7},crisps:{d:.4,r:.08,bulge:.24,gloss:.9},sack:{d:.6,r:.12,bulge:.18,gloss:.3},tray:{d:.3,r:.05,bulge:.03,gloss:.8},block:{d:.42,r:.05,bulge:0,gloss:.5},roll:{d:.62,r:.14,bulge:.12,gloss:.5},carton:{d:.75,r:.14,bulge:.03,gloss:.5},bar:{d:.12,r:.02,bulge:0,gloss:.7},fruit:{d:.55,r:.08,bulge:.1,gloss:0},tub:{cyl:1,gloss:.6},jar:{cyl:1,gloss:.95}};
+  const SHAPE={box:{d:.55,r:.03,bulge:0,gloss:.1},bag:{d:.62,r:.1,bulge:.16,gloss:.7},crisps:{d:.4,r:.08,bulge:.24,gloss:.9},sack:{d:.6,r:.12,bulge:.18,gloss:.3},tray:{d:.3,r:.05,bulge:.03,gloss:.8},block:{d:.42,r:.05,bulge:0,gloss:.5},roll:{d:.62,r:.14,bulge:.12,gloss:.5},carton:{d:.75,r:.14,bulge:.03,gloss:.5},bar:{d:.12,r:.02,bulge:0,gloss:.7},fruit:{d:.55,r:.08,bulge:.1,gloss:0},tub:{cyl:1,gloss:.6},jar:{cyl:1,gloss:.95},tin:{cyl:1,gloss:.7}};
   let pkg=null;
   function edgeColor(im){ try{ const c=document.createElement("canvas"); c.width=c.height=16; const x=c.getContext("2d"); x.drawImage(im,0,0,16,16); const d=x.getImageData(0,0,16,16).data; let r=0,g=0,b=0,n=0; for(let i=0;i<16;i++) for(const [px,py] of [[i,0],[i,15],[0,i],[15,i]]){ const k=(py*16+px)*4; r+=d[k]; g+=d[k+1]; b+=d[k+2]; n++; } return new T.Color(`rgb(${Math.round(r/n)},${Math.round(g/n)},${Math.round(b/n)})`); }catch(e){ return new T.Color(p.color); } }
   function buildPack(im){
@@ -1526,7 +1699,8 @@ function mount3D(host,p){
       else { x.fillStyle=p.ink; x.fillRect(cv.width/2-200,cv.height*.35,400,cv.height*.3); }
       const t=new T.CanvasTexture(cv); t.encoding=T.sRGBEncoding; t.anisotropy=4; texs.push(t);
       const body=mesh(new T.CylinderGeometry(r,r*(p.shape==="tub"?.86:1),h,64,1,true),faceMat({map:t,side:T.DoubleSide})); body.rotation.y=Math.PI; g.add(body);
-      const lid=mesh(new T.CylinderGeometry(r*1.04,r*1.04,.14,64),glossy({color:p.shape==="jar"?0x2B2B2B:new T.Color("#"+side.getHexString()).getHex(),roughness:.3,metalness:p.shape==="jar"?.6:0})); lid.position.y=h/2+.06; g.add(lid);
+      const metal=p.shape==="tin", lid=mesh(new T.CylinderGeometry(r*1.04,r*1.04,metal?.06:.14,64),glossy({color:p.shape==="jar"?0x2B2B2B:metal?0xC9CDD2:new T.Color("#"+side.getHexString()).getHex(),roughness:metal?.25:.3,metalness:p.shape==="jar"?.6:metal?.9:0})); lid.position.y=h/2+(metal?.03:.06); g.add(lid);
+      if(metal){ const rimB=lid.clone(); rimB.position.y=-h/2-.03; g.add(rimB); }
       const base=mesh(new T.CircleGeometry(r*(p.shape==="tub"?.86:1),48),std({color:side,roughness:.6})); base.rotation.x=Math.PI/2; base.position.y=-h/2; g.add(base);
     } else {
       cv.width=512; cv.height=Math.round(512/aspect);
@@ -1653,7 +1827,7 @@ function deleteSaved(btn,id){
 function renderSaved(){
   screens.innerHTML=`<div class="pad"><div class="eyebrow">Recipe cards</div><h1 class="screen-title">Saved meals</h1><p class="screen-sub">Meals you eat often, ready to write into any day. Save a new one from the ⋯ menu beside any meal on your diary page.</p>
   ${S.saved.map(s=>{const t=sumNut(s.items.map(i=>itemNut(PM[i.pid],i.qty,i.unit))).tot;return `<article class="saved-card"><h3>${esc(s.name)}</h3><div class="k">${Math.round(energyVal(t))} ${S.energy} · P ${g1(t.protein)} · C ${g1(t.carbs)} · F ${g1(t.fat)} g</div>
-    <ul>${s.items.map(i=>`<li><span>${photo(PM[i.pid])}${esc(PM[i.pid].brand)} ${esc(PM[i.pid].name)}</span><span>${esc(unitLabel(PM[i.pid],i.unit,i.qty))}</span></li>`).join("")}</ul>
+    <ul>${s.items.map(i=>{const q=PM[i.pid];return `<li>${photo(q)}<span class="si-nm">${esc(q.name)}<small>${esc(q.brand)}</small></span><span class="si-q">${esc(unitLabel(q,i.unit,i.qty))}</span></li>`;}).join("")}</ul>
     <div class="card-actions"><button class="btn btn-ink btn-sm" data-saved="${s.id}">Log to ${fmtShort(S.viewDate)}</button><button class="btn btn-ghost btn-sm" data-act="saved-rename" data-id="${s.id}">Rename</button><button class="btn btn-ghost btn-sm" style="color:var(--red-ink);margin-left:auto" data-act="saved-delete" data-id="${s.id}">Delete</button></div></article>`}).join("")||`<div class="blank" style="cursor:default">No saved meals yet.</div>`}</div>`;
 }
 function openLogSaved(id){
@@ -1673,14 +1847,14 @@ function openLogSaved(id){
 }
 
 /* ================= CATALOGUE ================= */
-const pantryFilter={r:"all",q:""};
+const pantryFilter={c:"All",q:""};
 function renderPantry(){
   const q=pantryFilter.q.toLowerCase();
-  const list=P.filter(p=>(pantryFilter.r==="all"||p.retail[pantryFilter.r]!=null)&&(p.name+" "+p.brand).toLowerCase().includes(q));
-  screens.innerHTML=`<div class="pad"><div class="eyebrow">Irish supermarket catalogue</div><h1 class="screen-title">Catalogue</h1><p class="screen-sub">${P.length} sample products from Dunnes Stores, Tesco Ireland and SuperValu. Prices and values are illustrative.</p>
+  const list=P.filter(p=>(pantryFilter.c==="All"||(p.cats||[]).includes(pantryFilter.c))&&(p.name+" "+p.brand).toLowerCase().includes(q));
+  screens.innerHTML=`<div class="pad"><div class="eyebrow">Irish supermarket catalogue</div><h1 class="screen-title">Catalogue</h1><p class="screen-sub">${P.length} products from Dunnes Stores, Tesco Ireland and SuperValu. Nutrition values are sample data.</p>
   <div class="note-search" style="margin-bottom:12px">${IC.search}<input id="pq" value="${esc(pantryFilter.q)}" placeholder="Search the catalogue" aria-label="Search the catalogue">${pantryFilter.q?`<button class="clear-x" id="pqClear" aria-label="Clear search">${IC.close}</button>`:""}</div>
-  <div class="chips">${[["all","All shops"],...Object.entries(RET).map(([k,v])=>[k,v.n])].map(([k,l])=>`<button class="chip" data-act="retailer" data-v="${k}" aria-pressed="${pantryFilter.r===k}">${k!=="all"?`<i class="rdot" style="background:${RET[k].c}"></i>`:""}${l}</button>`).join("")}</div>
-  <div id="plist">${list.map(p=>{const min=Math.min(...Object.values(p.retail));const miss=Object.values(p.n).filter(v=>v==null).length;return `<button class="cat-row" data-pid="${p.id}">${photo(p)}<span class="nm">${esc(p.name)}<small>${esc(p.brand)} · ${esc(p.pack)}${miss?` · <span style="color:var(--leather)">${miss} value${miss>1?"s":""} not provided</span>`:""}</small></span><span class="pr"><b>${euro(min)}${p.priceUnit||""}</b>${p.n.kcal} kcal/100${p.basis}</span></button>`}).join("")||`<div class="blank" style="cursor:default">Nothing matches. Try another shop.</div>`}</div></div>`;
+  <div class="cat-chips" role="group" aria-label="Filter by category">${["All",...CATS].map(c=>`<button class="cat-chip" data-act="category" data-v="${c}" aria-pressed="${pantryFilter.c===c}">${esc(c)}</button>`).join("")}</div>
+  <div id="plist">${list.map(p=>{const miss=Object.values(p.n).filter(v=>v==null).length;return `<button class="cat-row" data-pid="${p.id}">${photo(p)}<span class="nm">${esc(p.name)}<small>${esc(p.brand)} · ${esc(p.pack)}${miss?` · <span style="color:var(--leather)">${miss} value${miss>1?"s":""} not provided</span>`:""}</small></span><span class="pr"><b>${p.n.kcal}</b>kcal/100${p.basis}</span></button>`}).join("")||`<div class="blank" style="cursor:default">Nothing in ${esc(pantryFilter.c==="All"?"the catalogue":pantryFilter.c)} matches${pantryFilter.q?` “${esc(pantryFilter.q)}”`:""}. Try another category.</div>`}</div></div>`;
   const pc=$("#pqClear"); if(pc) pc.onclick=()=>{pantryFilter.q="";renderPantry();$("#pq").focus();};
   const pq=$("#pq"); pq.oninput=()=>{pantryFilter.q=pq.value;const pos=pq.selectionStart;renderPantry();const n=$("#pq");n.focus();n.setSelectionRange(pos,pos);};
 }
@@ -1962,10 +2136,10 @@ const TIPS=[
   ['#addAll',"Add every item listed above to the meal"],
   ['.res',"Open the product to check details and add it"],
   ['#pBack',el=>el.getAttribute("aria-label")],
-  ['.price',"Shelf price at this shop (sample data)"],
+  ['.price',"Stocked at this shop"],
   ['.p-facts > div:nth-child(1)',el=>`Energy per 100 ${prodOf()?.basis||"g"} as sold`],
   ['.p-facts > div:nth-child(2)',"One standard serving, as defined on the pack"],
-  ['.p-facts > div:nth-child(3)',"Lowest price across the shops"],
+  ['.p-facts > div:nth-child(3)',"Energy in one standard serving"],
   ['#qIn',el=>`How much you had: ${qtyHint($("#uIn")?.value||"g")}`],
   ['#uIn',"Grams, millilitres or the pack's serving sizes. Switching unit converts the amount"],
   ['#mIn',"Which meal this entry is written under"],
@@ -1979,9 +2153,15 @@ const TIPS=[
   ['#nSeg [data-b="you"]',"Values for the amount you entered above"],
   ['.ntab th:last-child',"% of the Reference Intake for an average adult (8,400 kJ / 2,000 kcal)"],
   ['.na',"The retailer or pack doesn't state this value, so it's left out of your totals"],
+  ['#aboutData > summary',"Show or hide where this product's information comes from"],
+  ['.day-micro > summary',"Show or hide today's vitamins and minerals"],
+  ['.dm',el=>`${el.firstElementChild.textContent}: ${el.querySelector(".dm-v").textContent} today, ${el.querySelector(".dm-p").textContent} of the daily reference value`],
+  ['[data-tipnrv]',"Nutrient Reference Value: the EU daily amount for an average adult"],
+  ['.claim',"At least 15% of the daily reference value per 100 g is a “source”; 30% is “high in”"],
+  ['.micro',el=>{const m=MK[el.dataset.micro];return `${m.l}: daily reference value is ${m.nrv} ${m.u}`;}],
   ['.al-chip:not(.al-may)',"Allergen declared on the pack"],
   ['.al-may',"Precautionary “may contain” warning on the pack"],
-  ['.chip[data-act="retailer"]',el=>el.dataset.v==="all"?"Show products from every shop":`Show products sold at ${RET[el.dataset.v].n}`],
+  ['.cat-chip',el=>el.dataset.v==="All"?"Show every product":`Show ${el.dataset.v.toLowerCase()} products`],
   ['.cat-row',"Open the product's details, nutrition and 3D view"],
   ['[data-saved]',"Write this meal into the page you're viewing. You can adjust portions first"],
   ['[data-act="saved-rename"]',"Change this meal's name"],
@@ -2051,6 +2231,9 @@ document.addEventListener("contextmenu",e=>{ if(tipFor) e.preventDefault(); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape") hideTip(); });
 document.addEventListener("pointerdown",e=>{ if(e.pointerType==="mouse"&&tipFor) hideTip(); });
 appEl.addEventListener("scroll",hideTip,true);
+
+/* The app frame must never scroll itself (focus or scrollIntoView can shift a hidden-overflow box); snap it back. */
+appEl.addEventListener("scroll",()=>{ if(appEl.scrollTop||appEl.scrollLeft){ appEl.scrollTop=0; appEl.scrollLeft=0; } });
 
 /* ================= UNEXPECTED ERRORS ================= */
 let lastErrAt=0;
