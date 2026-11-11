@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Local Claude Code preview settings
+.claude/
+
+# Browser-saved copies of the published page (not source)
+Lón Food Diary.html
+Lón Food Diary.md
