@@ -4,6 +4,8 @@ An interactive, mobile-first prototype of a food diary for the Irish market that
 
 ## What it does
 
+- Opens with a splash screen (the notebook's leather cover swings open), then sign in or create an account. New accounts go through onboarding before they can use the diary. "Explore the sample diary" opens a filled-in demo.
+- Accounts are local to the browser in this prototype: there's no server, each account's diary is stored separately, and passwords are kept as salted SHA-256 hashes, never as plain text.
 - Onboarding sets daily targets from one of three profiles: Athletic Performance / Sports, General Fitness Maintenance or Weight Management.
 - Each day is a journal page. Swipe or use the arrows to turn pages, with a page-turn sound.
 - Energy (kcal or kJ), protein, carbohydrate and fat totals are "stamped" at the top of each page.

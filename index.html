@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>Lón Food Diary</title>
+<title>Bia Diary</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -453,6 +453,62 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .targets b{font-size:22px;font-variant-numeric:tabular-nums}
 .targets .wide b{font-size:36px}
 
+/* splash: the notebook's leather cover, which swings open to reveal the app */
+.splash{position:absolute;inset:0;z-index:60;background:linear-gradient(150deg,#946640,#6E4826 55%,#5A3A1E);color:#F3DDBE;display:grid;grid-template-rows:1fr auto;place-items:center;transform-origin:left center;transition:transform .75s cubic-bezier(.6,.05,.4,1),opacity .75s ease;cursor:pointer}
+.splash::before{content:"";position:absolute;inset:12px;border:1.5px dashed rgba(240,214,180,.5);border-radius:24px;pointer-events:none}
+.splash::after{content:"";position:absolute;inset:0;background:var(--noise);opacity:.6;pointer-events:none}
+.splash.open{transform:perspective(1800px) rotateY(-104deg);opacity:0;pointer-events:none}
+.sp-ribbon{position:absolute;top:0;right:54px;width:18px;height:46%;background:linear-gradient(90deg,#7A2E22,#9B3A2B 50%,#7A2E22);clip-path:polygon(0 0,100% 0,100% 100%,50% 95%,0 100%);box-shadow:0 2px 4px rgba(0,0,0,.25);animation:ribbon 1s cubic-bezier(.3,1.4,.5,1) both .1s}
+@keyframes ribbon{from{height:0}}
+.sp-center{text-align:center;position:relative;z-index:1}
+.sp-name{font-family:var(--f-display);font-weight:600;font-size:84px;letter-spacing:-.03em;line-height:1;filter:url(#inky);animation:spStamp .6s cubic-bezier(.3,1.5,.5,1) both .25s}
+@keyframes spStamp{from{opacity:0;transform:scale(1.8)}to{opacity:1;transform:none}}
+.sp-tag{font-family:var(--f-hand);font-size:28px;margin-top:2px;animation:inkIn .6s ease both .7s}
+.sp-rule{width:120px;height:2px;margin:22px auto 0;background:rgba(243,221,190,.25);border-radius:1px;overflow:hidden}
+.sp-rule i{display:block;height:100%;background:#F3DDBE;animation:spLoad 1.5s ease-in-out both .3s}
+@keyframes spLoad{from{width:0}to{width:100%}}
+.sp-foot{position:relative;z-index:1;font-size:11.5px;letter-spacing:.06em;color:rgba(243,221,190,.75);padding-bottom:calc(30px + env(safe-area-inset-bottom,0px))}
+
+/* sign in / create account */
+.auth{position:absolute;inset:0;z-index:40;background:var(--paper);background-image:var(--noise);overflow-y:auto;scrollbar-width:none;display:none}
+.auth.show{display:block}
+.auth-body{padding:34px max(22px,env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) max(22px,env(safe-area-inset-left,0px));min-height:100%;display:flex;flex-direction:column}
+.auth-mark{display:flex;align-items:baseline;gap:8px}
+.auth-mark b{font-family:var(--f-display);font-weight:600;font-size:40px;letter-spacing:-.02em;color:var(--leather-d)}
+.auth-mark span{font-family:var(--f-hand);font-size:22px;color:var(--leather)}
+.auth h2{font-family:var(--f-display);font-weight:600;font-size:27px;line-height:1.12;letter-spacing:-.015em;margin:18px 0 6px;text-wrap:balance}
+.auth .lead{color:var(--ink-2);font-size:14px;line-height:1.5;margin:0 0 18px}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1.5px solid var(--paper-3);margin-bottom:18px}
+.auth-tabs button{padding:10px 0 9px;font-weight:600;font-size:14px;color:var(--ink-3);border-bottom:2.5px solid transparent;margin-bottom:-1.5px}
+.auth-tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--leather)}
+.auth-card{background:var(--card);border-radius:4px;padding:18px 16px 16px;box-shadow:0 12px 26px -18px rgba(70,45,15,.55);display:grid;gap:16px;position:relative}
+.auth-card::before{content:"";position:absolute;top:-8px;left:22px;width:62px;height:18px;background:rgba(214,196,160,.6);transform:rotate(-3deg)}
+.pw-wrap{position:relative}
+.pw-wrap .inp{padding-right:58px}
+.pw-toggle{position:absolute;right:0;bottom:6px;font-size:12px;font-weight:600;color:var(--leather-d);padding:4px 6px}
+.field-hint{font-size:11.5px;color:var(--ink-3);margin-top:2px}
+.auth-link{color:var(--leather-d);font-weight:600;text-decoration:underline;text-underline-offset:3px;font-size:13px}
+.auth-row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.or{display:flex;align-items:center;gap:12px;color:var(--ink-3);font-size:12px;margin:20px 0 14px}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--paper-3)}
+.auth-note{font-size:11.5px;color:var(--ink-3);line-height:1.5;margin-top:auto;padding-top:20px;display:flex;gap:8px}
+.auth-note svg{flex:none;width:14px;height:14px;margin-top:1px;color:var(--leather)}
+.forgot{background:var(--paper-2);border-radius:10px;padding:12px;font-size:12.5px;line-height:1.5;color:var(--ink-2)}
+.forgot .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+/* account card in Me */
+.acct{display:flex;align-items:center;gap:12px}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--leather);color:#F3DDBE;display:grid;place-items:center;font-family:var(--f-display);font-weight:600;font-size:20px;flex:none}
+.acct .who{min-width:0;flex:1}
+.acct .who b{display:block;font-size:15px}
+.acct .who span{display:block;font-size:12.5px;color:var(--ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* tooltips: a small ink card with a pointer, placed above (or below) the control */
+.tip{position:absolute;z-index:80;max-width:min(250px,calc(100% - 24px));background:var(--ink);color:#F1F5F9;font-size:12px;line-height:1.4;padding:7px 10px;border-radius:8px;pointer-events:none;opacity:0;transform:translateY(3px);transition:opacity .12s ease,transform .12s ease;box-shadow:0 8px 20px -8px rgba(15,23,42,.55);left:0;top:0}
+.tip.show{opacity:1;transform:none}
+.tip i{position:absolute;width:10px;height:10px;background:var(--ink);transform:rotate(45deg);bottom:-4px}
+.tip.below i{bottom:auto;top:-4px}
+
 /* toast */
 .toast{position:absolute;left:50%;bottom:92px;transform:translate(-50%,20px);opacity:0;z-index:40;background:var(--ink);color:#F1F5F9;border-radius:12px;padding:10px 14px;font-size:13px;display:flex;gap:12px;align-items:center;transition:all .25s;pointer-events:none;width:max-content;max-width:calc(100% - 32px);box-shadow:0 10px 24px -10px rgba(0,0,0,.5)}
 .toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
@@ -477,6 +533,8 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
     <p>A diary for logging food in Ireland that feels like a paper notebook, with Dunnes Stores, Tesco Ireland and SuperValu products built in. Everything in the phone works. Use these links to jump to a flow.</p>
     <h2>Flows</h2>
     <div class="guide-list">
+      <button data-jump="splash">Splash screen <span>launch</span></button>
+      <button data-jump="auth">Sign in / create account</button>
       <button data-jump="onboard">Onboarding & targets <span>persona</span></button>
       <button data-jump="diary">Today's diary page <span>swipe dates</span></button>
       <button data-jump="yesterday">Yesterday: target met <span>ink stamp</span></button>
@@ -508,6 +566,16 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
       <div class="scrim" id="scrim" hidden></div>
       <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-hidden="true"><div class="sheet-top"><button class="sheet-back" id="sheetBack" aria-label="Back" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="grab"></div><button class="sheet-x" id="sheetX" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-body" id="sheetBody"></div></div>
       <div class="ob" id="ob" aria-hidden="true"></div>
+      <section class="auth" id="auth" aria-hidden="true" aria-label="Sign in or create an account"></section>
+      <div class="splash" id="splash" role="img" aria-label="Lón, a food diary. Loading" hidden>
+        <div class="sp-ribbon" aria-hidden="true"></div>
+        <div class="sp-center">
+          <div class="sp-name">Lón</div>
+          <div class="sp-tag">a food diary</div>
+          <div class="sp-rule" aria-hidden="true"><i></i></div>
+        </div>
+        <div class="sp-foot">Kept like a notebook · Made for Irish kitchens</div>
+      </div>
       <div class="toast" id="toast" role="status"></div>
     </div>
   </div>
@@ -679,25 +747,49 @@ function sumNut(list){
   return {tot,missing,count:list.length};
 }
 const entryNut = e=>itemNut(PM[e.pid],e.qty,e.unit);
-function validateQty(raw,unit){
-  const s=String(raw).trim();
-  if(!s) return "Write an amount first.";
+/* ---------- input rules: every message says exactly what to enter ---------- */
+const NUM_RE=/^\d+([.,]\d+)?$/;
+/** Checks a number against a range and returns an "Enter …" message, or null when it's fine. */
+function checkNum(raw,{label,min,max,unit="",dec=1,eg}){
+  const s=String(raw).trim(), range=`${label} between ${min.toLocaleString("en-IE")} and ${max.toLocaleString("en-IE")}${unit?" "+unit:""}`;
+  if(!s) return `Enter ${range}.`;
+  if(!NUM_RE.test(s)) return `Enter numbers only, e.g. ${eg}.`;
   const v=Number(s.replace(",","."));
-  if(!isFinite(v)) return "That isn't a number. Try something like 40 or 1.5.";
-  if(v<=0) return "Amounts need to be more than zero.";
-  if(unit.startsWith("srv:")){ if(v>20) return "20 servings is the most for one entry. Split it up if you had more."; if(v*4%1!==0) return "Use whole, half or quarter servings."; }
-  else if(v>2000) return `That's over 2 ${unit==="ml"?"litres":"kg"}. Check the amount, or split it across entries.`;
-  else if(v<1) return `Under 1 ${unit} is too small to log.`;
+  if(v<min||v>max) return `Enter ${range}.`;
+  if(dec===0&&v%1) return `Enter a whole number, e.g. ${eg}.`;
+  if((s.split(/[.,]/)[1]||"").length>dec) return `Use at most ${dec} decimal place, e.g. ${eg}.`;
+  return null;
+}
+const RULES={
+  age:{label:"an age",min:16,max:90,unit:"years",dec:0,eg:"34"},
+  height:{label:"a height",min:120,max:230,unit:"cm",dec:0,eg:"168"},
+  weight:{label:"a weight",min:30,max:300,unit:"kg",dec:1,eg:"68.5"},
+  weighIn:{label:"a weight",min:25,max:350,unit:"kg",dec:1,eg:"68.5"}
+};
+const hintFor=r=>`${r.min}–${r.max} ${r.unit}`;
+/** Range shown under an amount box, e.g. "1–2,000 g" or "0.25–20 servings, in quarters". */
+const qtyHint=unit=>unit.startsWith("srv:")?"0.25–20 servings, in quarters (0.25, 0.5, 1.75…)":`1–2,000 ${unit}`;
+function validateQty(raw,unit){
+  const s=String(raw).trim(), srv=unit.startsWith("srv:");
+  if(!s) return srv?"Enter how many servings, e.g. 1 or 1.5.":`Enter an amount in ${unit}, e.g. 40.`;
+  if(!NUM_RE.test(s)) return `Enter numbers only, e.g. ${srv?"1.5":"40"}.`;
+  const v=Number(s.replace(",","."));
+  if(srv){ if(v<0.25||v>20) return "Enter between 0.25 and 20 servings. Split bigger amounts across entries."; if(Math.abs(v*4-Math.round(v*4))>1e-9) return "Enter servings in quarters, e.g. 0.5, 1.25 or 2."; }
+  else { if(v<1||v>2000) return `Enter an amount between 1 and 2,000 ${unit}.`; if((s.split(/[.,]/)[1]||"").length>1) return `Use at most 1 decimal place, e.g. 42.5.`; }
   return null;
 }
 
 /* ================= STATE ================= */
-const STORE="lon-diary-v1";
+/* Each account keeps its own diary under its own storage key. Accounts live only in this browser (prototype, no server). */
+const STORE_PREFIX="lon-diary-v2:", ACCT="lon-accounts-v1";
+const DEFAULT_PROFILE={persona:"general",sex:"female",age:34,height:168,weight:66.4,activity:1.55,pace:0.5,remind:true};
 const S = {
-  profile:{persona:"general",sex:"female",age:34,height:168,weight:66.4,activity:1.55,pace:0.5,remind:true},
+  profile:{...DEFAULT_PROFILE},
   targets:null, diary:{}, weights:{}, saved:[], energy:"kcal", net:"online",
-  viewDate:TODAY, tab:"diary", stamped:{}, onboarded:false
+  viewDate:TODAY, tab:"diary", stamped:{}, skipW:{}, onboarded:false
 };
+let ME=null; // the signed-in account: {id,name,email} or the sample diary {id:"demo",demo:true}
+function resetState(){ Object.assign(S,{profile:{...DEFAULT_PROFILE},targets:null,diary:{},weights:{},saved:[],energy:"kcal",stamped:{},skipW:{},onboarded:false}); }
 function seed(){
   const D=(off)=>addDays(TODAY,off);
   const e=(pid,qty,unit,meal)=>({id:uid(),pid,qty,unit,meal,status:"saved"});
@@ -721,9 +813,17 @@ function seed(){
   ];
   S.targets=computeTargets(S.profile);
 }
-function persist(){try{const {net,viewDate,tab,...keep}=S;localStorage.setItem(STORE,JSON.stringify(keep));}catch(e){}}
+let storageWarned=false;
+/** Tells the person once if this device refuses to save (private browsing, storage full or blocked). */
+function storageFailed(err){
+  if(storageWarned) return; storageWarned=true;
+  const full=err&&(err.name==="QuotaExceededError"||err.code===22);
+  setTimeout(()=>toast(full?"This device's storage is full, so changes can't be saved. Free up space, then try again.":"Changes can't be saved on this device, so they'll be lost when you close the app. Turn off private browsing or allow site data, then reopen Lón."),50);
+}
+function persist(){ if(!ME) return; try{const {net,viewDate,tab,...keep}=S;localStorage.setItem(STORE_PREFIX+ME.id,JSON.stringify(keep));}catch(e){storageFailed(e);}}
 function load(){
-  try{const raw=localStorage.getItem(STORE); if(raw){Object.assign(S,JSON.parse(raw));return true;}}catch(e){}
+  if(!ME) return false;
+  try{const raw=localStorage.getItem(STORE_PREFIX+ME.id); if(raw){Object.assign(S,JSON.parse(raw));return true;}}catch(e){}
   return false;
 }
 
@@ -913,7 +1013,7 @@ function weighForm(k,late,editVal){
   const editing=editVal!=null;
   return `<div class="weigh" id="weighBox"><div class="h"><svg><use href="#i-scale"/></svg>${editing?`Change weigh-in for ${fmtShort(k)}`:late?`Weigh-in from ${fmtShort(k)} is still open`:"Weigh-in day"}</div>
   ${editing?"":`<p>Twice a month, on the 1st and 15th. Weigh yourself in the morning before breakfast for the fairest comparison.</p>`}
-  <div class="row"><input class="inp num" id="wIn" inputmode="decimal" value="${editing?editVal.toFixed(1):""}" placeholder="${(S.profile.weight||66).toFixed(1)}" style="width:90px" aria-label="Weight in kilograms"><span style="font-size:13px;color:var(--ink-2)">kg</span><button class="btn btn-go btn-sm" data-act="weigh-save" data-date="${k}">Save</button>${editing?`<button class="btn btn-line btn-sm" data-act="weigh-cancel">Cancel</button><button class="btn btn-ghost btn-sm" style="color:var(--red-ink)" data-act="weigh-delete" data-date="${k}">Delete</button>`:`<button class="btn btn-ghost btn-sm" data-act="weigh-skip" data-date="${k}">Skip this one</button>`}</div><div id="wErr"></div></div>`;
+  <div class="row"><input class="inp num" id="wIn" inputmode="decimal" value="${editing?editVal.toFixed(1):""}" placeholder="${(S.profile.weight||66).toFixed(1)}" style="width:90px" maxlength="5" aria-label="Weight in kilograms" aria-describedby="wHint wErr"><span style="font-size:13px;color:var(--ink-2)">kg</span><button class="btn btn-go btn-sm" data-act="weigh-save" data-date="${k}">Save</button>${editing?`<button class="btn btn-line btn-sm" data-act="weigh-cancel">Cancel</button><button class="btn btn-ghost btn-sm" style="color:var(--red-ink)" data-act="weigh-delete" data-date="${k}">Delete</button>`:`<button class="btn btn-ghost btn-sm" data-act="weigh-skip" data-date="${k}">Skip this one</button>`}</div><div class="field-hint" id="wHint">Enter ${hintFor(RULES.weighIn)}, e.g. 68.5</div><div id="wErr"></div></div>`;
 }
 
 function goDate(nk){
@@ -952,8 +1052,13 @@ screens.addEventListener("click",e=>{
   else if(a==="net"){ S.net=b.dataset.v; render(); if(S.net==="online") syncPending(false); }
   else if(a==="energy"){ S.energy=b.dataset.v; persist(); render(); }
   else if(a==="remind"){ S.profile.remind=!S.profile.remind; persist(); render(); }
-  else if(a==="reset"){ if(b.dataset.armed){ try{localStorage.removeItem(STORE)}catch(e){} seed(); S.viewDate=TODAY; S.stamped={}; persist(); toast("Sample diary restored"); render(); } else { b.dataset.armed=1; b.classList.add("btn-armed"); b.textContent="Tap again to reset"; b.insertAdjacentHTML("afterend",`<button class="btn btn-sm btn-ghost" data-act="reset-cancel">Cancel</button>`); } }
+  else if(a==="reset"){ if(b.dataset.armed){ resetState(); seed(); S.onboarded=true; S.viewDate=TODAY; persist(); toast("Sample diary restored"); render(); } else { b.dataset.armed=1; b.classList.add("btn-armed"); b.textContent="Tap again to reset"; b.insertAdjacentHTML("afterend",`<button class="btn btn-sm btn-ghost" data-act="reset-cancel">Cancel</button>`); } }
   else if(a==="reset-cancel"){ renderMe(); }
+  else if(a==="signout") signOut();
+  else if(a==="acct-delete"){
+    if(!b.dataset.armed){ b.dataset.armed=1; b.classList.add("btn-armed"); b.textContent="Tap again: deletes your diary"; b.insertAdjacentHTML("afterend",`<button class="btn btn-sm btn-ghost" data-act="reset-cancel">Cancel</button>`); return; }
+    const email=ME.email; closeProduct(); closeSheet(); deleteAccount(email); ME=null; resetState(); screens.innerHTML=""; openAuth("create"); toast("Account and diary deleted from this device");
+  }
   else if(a==="retailer"){ pantryFilter.r=b.dataset.v; renderPantry(); }
   else if(a==="saved-rename") renameSaved(b.dataset.id);
   else if(a==="saved-delete") deleteSaved(b,b.dataset.id);
@@ -964,7 +1069,7 @@ screens.addEventListener("click",e=>{
 function guessMeal(){const h=new Date().getHours();return h<11?"Breakfast":h<15?"Lunch":h<21?"Dinner":"Snacks";}
 function saveWeight(k){
   const inp=$("#wIn"), v=Number(String(inp.value).replace(",",".")); const err=$("#wErr");
-  let msg=null; if(!inp.value.trim()) msg="Write your weight first."; else if(!isFinite(v)) msg="That isn't a number."; else if(v<25||v>350) msg="Weights between 25 and 350 kg only. Check the decimal point.";
+  const msg=checkNum(inp.value,RULES.weighIn); inp.setAttribute("aria-invalid",!!msg);
   if(msg){ inp.classList.add("bad"); err.innerHTML=`<div class="ink-err">${IC.inkErr}<span>${msg}</span></div>`; return; }
   S.weights[k]=Math.round(v*10)/10; if(k===Object.keys(S.weights).sort().pop()) S.profile.weight=S.weights[k]; persist(); toast(`Weight saved for ${fmtShort(k)}`); renderDiary();
 }
@@ -989,7 +1094,7 @@ function closeSheet(){
   if(sheetClose){try{sheetClose()}catch(e){} sheetClose=null;}
 }
 scrim.addEventListener("click",closeSheet);
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){ if(sheet.classList.contains("show")) closeSheet(); else if($("#product").classList.contains("show")) productBack(); else if($("#ob").classList.contains("show")){ S.onboarded=true; persist(); closeOb(); } }});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){ if(sheet.classList.contains("show")) closeSheet(); else if($("#product").classList.contains("show")) productBack(); else if($("#ob").classList.contains("show") && S.onboarded){ closeOb(); } }});
 
 /* ---------- Add entry ---------- */
 let addCtx={meal:"Breakfast",mode:"search"};
@@ -1015,8 +1120,9 @@ function renderMode(){
     const q=$("#q"); $("#qClear").onclick=()=>{q.value="";addCtx.q="";run();q.focus();};
     const run=()=>{const v=q.value.trim().toLowerCase(); addCtx.q=q.value; $("#qClear").hidden=!q.value;
       const recent=[...new Set(Object.values(S.diary).flat().reverse().map(e=>e.pid))].slice(0,5);
-      const list=v?P.filter(p=>(p.name+" "+p.brand+" "+Object.keys(p.retail).map(r=>RET[r].n).join(" ")).toLowerCase().includes(v)):recent.map(id=>PM[id]);
-      $("#res").innerHTML=(v?"":`<div class="mini-h">Recently written</div>`)+(list.length?list.map(resRow).join(""):`<div class="blank" style="height:99px;cursor:default">No match for “${esc(q.value)}”. Try the brand name.</div>`);
+      const popular=["brennans","avonmore","flahavans","kerrygold","barrys","denny"];
+      const list=v?P.filter(p=>(p.name+" "+p.brand+" "+Object.keys(p.retail).map(r=>RET[r].n).join(" ")).toLowerCase().includes(v)):(recent.length?recent:popular).map(id=>PM[id]);
+      $("#res").innerHTML=(v?"":`<div class="mini-h">${recent.length?"Recently written":"Popular in Irish shops"}</div>`)+(list.length?list.map(resRow).join(""):`<div class="blank" style="height:99px;cursor:default">No match for “${esc(q.value)}”. Try the brand name.</div>`);
     }; q.oninput=run; run(); setTimeout(()=>q.focus({preventScroll:true}),300);
   } else if(m==="barcode"){
     mb.innerHTML=`<div class="viewfinder"><div class="frame"></div><div class="laser"></div><div class="vf-note">Hold the barcode inside the frame</div></div>
@@ -1029,7 +1135,11 @@ function renderMode(){
       <div class="row" style="display:flex;gap:8px;margin-top:10px"><button class="btn btn-ink btn-sm" id="detect">Find foods in this photo</button><label class="btn btn-line btn-sm" for="ph" id="phLbl">Use my photo</label><button class="btn btn-ghost btn-sm" id="phRemove" hidden>Remove photo</button><input type="file" id="ph" accept="image/*" capture="environment" hidden></div>
       <div id="found"></div>
       <div class="proto-note">${IC.info}<span>Recognition is simulated: the prototype suggests the same items for any photo. Portions are estimated from plate size and should be checked.</span></div>`;
-    $("#ph").onchange=e=>{const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{$("#ps").innerHTML=`<img src="${r.result}" alt="Your meal photo">`;$("#found").innerHTML="";$("#phRemove").hidden=false;$("#phLbl").textContent="Retake";}; r.readAsDataURL(f);};
+    $("#ph").onchange=e=>{const f=e.target.files[0]; if(!f)return;
+      const fail=msg=>{ e.target.value=""; $("#found").innerHTML=`<div class="ink-err" role="alert">${IC.inkErr}<span>${msg}</span></div>`; };
+      if(!/^image\//.test(f.type)&&!/\.(jpe?g|png|heic|heif|webp|gif)$/i.test(f.name)) return fail("That file isn't a photo. Choose a JPG, PNG or HEIC image.");
+      if(f.size>15*1024*1024) return fail(`That photo is ${(f.size/1048576).toFixed(0)} MB. Choose one under 15 MB.`);
+      const r=new FileReader(); r.onerror=()=>fail("The photo couldn't be read. Try taking it again or choose another."); r.onload=()=>{$("#ps").innerHTML=`<img src="${r.result}" alt="Your meal photo">`;$("#found").innerHTML="";$("#phRemove").hidden=false;$("#phLbl").textContent="Retake";}; r.readAsDataURL(f);};
     $("#phRemove").onclick=()=>{ $("#ph").value=""; renderMode(); };
     $("#detect").onclick=async e=>{const b=e.currentTarget; if(b.disabled)return; b.disabled=true; b.innerHTML=`<span class="spinner"></span>Looking…`; await wait(1100); b.innerHTML="Look again"; b.disabled=false; showDetections();};
   } else if(m==="voice"){
@@ -1167,7 +1277,7 @@ function openProduct(pid,ctx={}){
 
     <div class="sec"><div class="logbox" id="logbox">
       <div class="lbl" style="margin-bottom:8px">${editing?"Change this entry":"Write it in your diary"}</div>
-      <div class="log-grid"><div class="field"><label for="qIn">Amount</label><input class="inp num" id="qIn" inputmode="decimal" value="${defQty}"></div>
+      <div class="log-grid"><div class="field"><label for="qIn">Amount</label><input class="inp num" id="qIn" inputmode="decimal" maxlength="7" value="${defQty}" aria-describedby="qHint qErr"><div class="field-hint" id="qHint"></div></div>
       <div class="field"><label for="uIn">Unit</label><select class="inp" id="uIn">${unitOptions(p).map(o=>`<option value="${o.v}" ${o.v===defUnit?"selected":""}>${esc(o.l)}</option>`).join("")}</select></div></div>
       <div id="qErr"></div>
       <div class="field" style="margin-top:12px"><label for="mIn">Meal · ${fmtShort(S.viewDate)}</label><select class="inp" id="mIn">${MEALS.map(m=>`<option ${m===prodCtx.meal?"selected":""}>${m}</option>`).join("")}</select></div>
@@ -1195,7 +1305,7 @@ function openProduct(pid,ctx={}){
   const qIn=$("#qIn"),uIn=$("#uIn"),mIn=$("#mIn"),logBtn=$("#logBtn");
   let basis="100";
   const update=()=>{
-    const err=validateQty(qIn.value,uIn.value);
+    const err=validateQty(qIn.value,uIn.value); $("#qHint").textContent=qtyHint(uIn.value); qIn.setAttribute("aria-invalid",!!err);
     qIn.classList.toggle("bad",!!err); $("#qErr").innerHTML=err?`<div class="ink-err" role="alert">${IC.inkErr}<span>${err}</span></div>`:"";
     logBtn.disabled=!!err;
     if(!err){const n=itemNut(p,Number(qIn.value.replace(",",".")),uIn.value);
@@ -1209,7 +1319,7 @@ function openProduct(pid,ctx={}){
     if(basis==="you"){const e=validateQty(qIn.value,uIn.value); amt=e?0:baseAmount(p,Number(qIn.value.replace(",",".")),uIn.value); label=`Your ${g1(amt)}${p.basis}`;}
     $("#ntab").innerHTML=`<table class="ntab"><thead><tr><th>Typical values</th><th>${esc(label)}</th><th>%RI*</th></tr></thead><tbody>${NUT.map(n=>{
       const v=p.n[n.k]; const RI={kj:8400,kcal:2000,fat:70,sat:20,carbs:260,sugars:90,protein:50,salt:6}[n.k];
-      if(v==null) return `<tr class="missing ${n.sub?"sub":""}"><td>${n.l}</td><td><span class="na" title="The retailer or pack doesn't state this value">Not provided</span></td><td>–</td></tr>`;
+      if(v==null) return `<tr class="missing ${n.sub?"sub":""}"><td>${n.l}</td><td><span class="na">Not provided</span></td><td>–</td></tr>`;
       const val=v*amt/100; return `<tr class="${n.sub?"sub":""}"><td>${n.l}</td><td>${n.u==="kJ"||n.u==="kcal"?Math.round(val).toLocaleString("en-IE")+" "+n.u:g1(val)+" g"}</td><td>${RI?Math.round(val/RI*100)+"%":"–"}</td></tr>`;}).join("")}</tbody></table>
       <p style="font-size:11px;color:var(--ink-3);margin:8px 0 0;line-height:1.45">*Reference intake of an average adult (8,400 kJ / 2,000 kcal). ${Object.values(p.n).some(v=>v==null)?"Values marked “Not provided” are missing from the source. They are left out of your totals, not counted as zero.":""}</p>`;
   };
@@ -1397,8 +1507,8 @@ function saveMealSheet(meal){
     <div class="field"><label for="smName">Meal name</label><input class="inp" id="smName" value="${esc(dow(S.viewDate))}'s ${meal.toLowerCase()}" maxlength="40"></div><div id="smErr"></div>
     <ul style="list-style:none;padding:0;margin:14px 0;font-size:13px;display:grid;gap:6px">${es.map(e=>`<li style="display:flex;justify-content:space-between;border-bottom:1px dotted var(--ink-faint);padding-bottom:5px"><span>${esc(PM[e.pid].name)}</span><span style="color:var(--ink-3)">${esc(unitLabel(PM[e.pid],e.unit,e.qty))}</span></li>`).join("")}</ul>
     <div class="sheet-actions"><button class="btn btn-line" data-cancel="back">Cancel</button><button class="btn btn-go" id="smSave">Save meal</button></div>`,body=>{
-      $("#smSave").onclick=()=>{const n=$("#smName").value.trim(); if(!n){$("#smName").classList.add("bad");$("#smErr").innerHTML=`<div class="ink-err">${IC.inkErr}<span>Give the meal a name first.</span></div>`;return;}
-        if(S.saved.some(s=>s.name.toLowerCase()===n.toLowerCase())){$("#smName").classList.add("bad");$("#smErr").innerHTML=`<div class="ink-err">${IC.inkErr}<span>You already have a meal called that.</span></div>`;return;}
+      $("#smSave").onclick=()=>{const n=$("#smName").value.trim(); if(!n){$("#smName").classList.add("bad");$("#smErr").innerHTML=`<div class="ink-err">${IC.inkErr}<span>Enter a name for this meal, up to 40 characters.</span></div>`;return;}
+        if(S.saved.some(s=>s.name.toLowerCase()===n.toLowerCase())){$("#smName").classList.add("bad");$("#smErr").innerHTML=`<div class="ink-err">${IC.inkErr}<span>You already have a meal with this name. Enter a different name.</span></div>`;return;}
         S.saved.unshift({id:uid(),name:n,items:es.map(e=>({pid:e.pid,qty:e.qty,unit:e.unit}))}); persist(); closeSheet(); toast(`Saved “${esc(n)}”`,"View",()=>setTab("saved"));};
     },null,{back:()=>openMealMore(meal)});
 }
@@ -1407,7 +1517,7 @@ function renameSaved(id){
   openSheet(`<h3>Rename meal</h3><div class="field" style="margin-top:8px"><label for="rnName">Meal name</label><input class="inp" id="rnName" value="${esc(s.name)}" maxlength="40"></div><div id="rnErr"></div>
     <div class="sheet-actions"><button class="btn btn-line" data-cancel>Cancel</button><button class="btn btn-go" id="rnSave">Save name</button></div>`,body=>{
     const inp=$("#rnName"); setTimeout(()=>{inp.focus();inp.select();},300);
-    const go=()=>{const n=inp.value.trim(); let err=!n?"Give the meal a name.":S.saved.some(x=>x.id!==id&&x.name.toLowerCase()===n.toLowerCase())?"You already have a meal called that.":null;
+    const go=()=>{const n=inp.value.trim(); let err=!n?"Enter a name for this meal, up to 40 characters.":S.saved.some(x=>x.id!==id&&x.name.toLowerCase()===n.toLowerCase())?"You already have a meal with this name. Enter a different name.":null;
       if(err){inp.classList.add("bad");$("#rnErr").innerHTML=`<div class="ink-err">${IC.inkErr}<span>${err}</span></div>`;return;}
       s.name=n; persist(); closeSheet(); renderSaved(); toast("Name saved");};
     $("#rnSave").onclick=go; inp.onkeydown=e=>{if(e.key==="Enter")go();};
@@ -1463,7 +1573,13 @@ function renderMe(){
     const d=ws.map((w,i)=>`${i?"L":"M"}${X(i).toFixed(1)} ${Y(w[1]).toFixed(1)}`).join(" ");
     const ticks=[mn+.3,(mn+mx)/2,mx-.3].map(v=>`<line x1="${pl}" x2="${W-pr2}" y1="${Y(v)}" y2="${Y(v)}" stroke="#DCE5EE"/><text x="${pl-6}" y="${Y(v)+3}" text-anchor="end" font-size="9" fill="#8A8F98" font-family="IBM Plex Sans,Arial">${v.toFixed(1)}</text>`).join("");
     spark=`<svg class="spark" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weight trend">${ticks}<path d="${d} L${X(ws.length-1)} ${H-pb} L${pl} ${H-pb}Z" fill="rgba(139,94,52,.1)"/><path d="${d}" fill="none" stroke="#8B5E34" stroke-width="2" stroke-linejoin="round"/>${ws.map((w,i)=>`<circle cx="${X(i)}" cy="${Y(w[1])}" r="${i===ws.length-1?4:2.5}" fill="${i===ws.length-1?"#8B5E34":"#FFFDF9"}" stroke="#8B5E34" stroke-width="1.5"/>`).join("")}<text x="${pl}" y="${H-6}" font-size="9" fill="#8A8F98" font-family="IBM Plex Sans,Arial">${fmtShort(ws[0][0])}</text><text x="${W-pr2}" y="${H-6}" text-anchor="end" font-size="9" fill="#8A8F98" font-family="IBM Plex Sans,Arial">${fmtShort(ws[ws.length-1][0])}</text></svg>`;}
+  const acct=ME&&ME.demo
+    ? `<div class="card"><div class="acct"><div class="avatar">S</div><div class="who"><b>Sample diary</b><span>Example data, not a real account</span></div></div>
+        <div class="card-actions" style="margin-top:12px"><button class="btn btn-ink btn-sm" data-act="signout">Leave sample diary</button></div></div>`
+    : `<div class="card"><div class="acct"><div class="avatar">${esc((ME?.name||"?").trim().charAt(0).toUpperCase())}</div><div class="who"><b>${esc(ME?.name||"")}</b><span>${esc(ME?.email||"")}</span></div></div>
+        <div class="card-actions" style="margin-top:12px"><button class="btn btn-ink btn-sm" data-act="signout">Sign out</button><button class="btn btn-ghost btn-sm" style="color:var(--red-ink);margin-left:auto" data-act="acct-delete">Delete account</button></div></div>`;
   screens.innerHTML=`<div class="pad"><div class="eyebrow">Your notebook</div><h1 class="screen-title">Me</h1>
+  ${acct}
   <div class="card"><div class="lbl">Plan</div><div style="font-family:var(--f-display);font-size:19px;font-weight:600;margin-top:4px">${per.n}</div><p style="font-size:12.5px;color:var(--ink-2);margin:4px 0 0;line-height:1.45">${per.d}</p>
     <div class="kv"><div><small>Energy</small><b>${(S.energy==="kcal"?T.kcal:T.kj).toLocaleString("en-IE")}</b> <span style="font-size:11px">${S.energy}</span></div><div><small>Protein</small><b>${T.protein}</b> g</div><div><small>Carbs</small><b>${T.carbs}</b> g</div><div><small>Fat</small><b>${T.fat}</b> g</div><div><small>Fibre</small><b>${T.fibre}</b> g</div><div><small>Weight</small><b>${pr.weight.toFixed(1)}</b> kg</div></div>
     <button class="btn btn-line btn-sm" style="margin-top:14px" data-act="retake">Retake the assessment</button></div>
@@ -1472,7 +1588,7 @@ function renderMe(){
     <div class="setrow"><span>Energy unit</span><div class="seg"><button data-act="energy" data-v="kcal" aria-pressed="${S.energy==="kcal"}">kcal</button><button data-act="energy" data-v="kJ" aria-pressed="${S.energy==="kJ"}">kJ</button></div></div>
     <div class="setrow"><span>Weigh-in reminders<small>On your diary page, twice a month</small></span><div class="seg"><button data-act="remind" aria-pressed="${pr.remind}">On</button><button data-act="remind" aria-pressed="${!pr.remind}">Off</button></div></div>
     <div class="setrow"><span>Connection (prototype)<small>Try saving while offline or on a flaky signal</small></span><div class="seg"><button data-act="net" data-v="online" aria-pressed="${S.net==="online"}">Online</button><button data-act="net" data-v="flaky" aria-pressed="${S.net==="flaky"}">Flaky</button><button data-act="net" data-v="offline" aria-pressed="${S.net==="offline"}">Offline</button></div></div>
-    <div class="setrow"><span>Sample diary<small>Restore the example entries</small></span><button class="btn btn-sm btn-danger" data-act="reset">Reset</button></div>
+    ${ME&&ME.demo?`<div class="setrow"><span>Sample diary<small>Restore the example entries</small></span><button class="btn btn-sm btn-danger" data-act="reset">Reset</button></div>`:""}
   </div>
   <p style="font-size:11.5px;color:var(--ink-3);line-height:1.5">Targets are general estimates from the Mifflin-St Jeor equation, not medical advice. Talk to a GP or dietitian before big changes.</p></div>`;
 }
@@ -1496,46 +1612,168 @@ function openMonth(k){
 
 /* ================= ONBOARDING ================= */
 const obEl=$("#ob"); let ob=null;
-function openOnboarding(){ ob={step:0,p:{...S.profile}}; renderOb(); obEl.classList.add("show"); obEl.setAttribute("aria-hidden","false"); }
+function openOnboarding(){ ob={step:0,p:{...S.profile}}; if(!S.onboarded){ ob.p.age=ob.p.height=ob.p.weight=""; } renderOb(); obEl.classList.add("show"); obEl.setAttribute("aria-hidden","false"); }
 function closeOb(){ obEl.classList.remove("show"); obEl.setAttribute("aria-hidden","true"); }
 function renderOb(){
   const p=ob.p, steps=5, s=ob.step;
   let body="",next="Continue",err="";
-  if(s===0){ body=`<div class="cover"><div><div class="nm">Lón</div><div class="tg">a food diary</div></div></div><h2>Keep a food diary that feels like a notebook.</h2><p class="lead">Five quick questions set your daily targets. Then log meals by search, barcode, photo or voice, from Irish supermarket shelves.</p>`; next="Begin"; }
+  const required=!S.onboarded, first=(ME&&!ME.demo&&ME.name||"").split(" ")[0];
+  if(s===0){ body=`<div class="cover"><div><div class="nm">Lón</div><div class="tg">a food diary</div></div></div><h2>${required&&first?`Welcome, ${esc(first)}. Let's set up your notebook.`:"Keep a food diary that feels like a notebook."}</h2><p class="lead">${required?"Before your first page, four quick questions set your daily energy and macro targets. It takes about a minute.":"Four quick questions set your daily targets. Then log meals by search, barcode, photo or voice, from Irish supermarket shelves."}</p>`; next="Begin"; }
   if(s===1){ body=`<div class="eyebrow">Step 1 of 4</div><h2>What are you working towards?</h2><p class="lead">This shapes how your energy and protein are set.</p>${Object.entries(PERSONAS).map(([k,v])=>`<button class="persona" data-persona="${k}" aria-pressed="${p.persona===k}">${PERSONA_ICON[k]}<span><b>${v.n}</b><span>${v.d}</span></span></button>`).join("")}`; }
   if(s===2){ body=`<div class="eyebrow">Step 2 of 4</div><h2>A little about you</h2><p class="lead">Used only to estimate how much energy your body uses at rest.</p>
     <div class="field" style="margin-bottom:18px"><span class="lbl">Sex for the energy equation</span><div class="seg" style="margin-top:6px"><button data-sex="female" aria-pressed="${p.sex==="female"}">Female</button><button data-sex="male" aria-pressed="${p.sex==="male"}">Male</button></div></div>
-    <div class="ob-grid"><div class="field"><label for="oAge">Age</label><input class="inp" id="oAge" inputmode="numeric" value="${p.age}"></div><div class="field"><label for="oH">Height (cm)</label><input class="inp" id="oH" inputmode="numeric" value="${p.height}"></div><div class="field"><label for="oW">Weight (kg)</label><input class="inp" id="oW" inputmode="decimal" value="${p.weight}"></div></div><div id="oErr"></div>`; }
+    <div class="ob-grid">${[["oAge","Age","age","numeric",3],["oH","Height (cm)","height","numeric",3],["oW","Weight (kg)","weight","decimal",5]].map(([id,l,k,im,ml])=>`<div class="field"><label for="${id}">${l}</label><input class="inp num" id="${id}" inputmode="${im}" maxlength="${ml}" value="${p[k]}" aria-describedby="${id}-hint ${id}-err" data-rule="${k}"><div class="field-hint" id="${id}-hint">${hintFor(RULES[k])}</div><div id="${id}-err" data-oerr></div></div>`).join("")}</div>`; }
   if(s===3){ body=`<div class="eyebrow">Step 3 of 4</div><h2>How active is a normal week?</h2><p class="lead">Count training, sport, walking and on-your-feet work.</p>${ACTS.map(([v,l,d])=>`<button class="opt" data-act-lvl="${v}" aria-pressed="${p.activity===v}">${l}<small>${d}</small></button>`).join("")}
     ${p.persona==="weight"?`<div class="lbl" style="margin:18px 0 8px">Pace</div><div class="seg">${[[.25,"Gentle · 0.25 kg/wk"],[.5,"Steady · 0.5 kg/wk"]].map(([v,l])=>`<button data-pace="${v}" aria-pressed="${p.pace===v}">${l}</button>`).join("")}</div>`:""}`; }
   if(s===4){ const T=computeTargets(p); ob.T=T; body=`<div class="eyebrow">Step 4 of 4 · Your targets</div><h2>${PERSONAS[p.persona].n}</h2><p class="lead">Recommended daily targets. You can change your plan any time from Me.</p>
     <div class="targets"><div class="wide"><b class="num">${T.kcal.toLocaleString("en-IE")}</b><span>kcal a day · ${T.kj.toLocaleString("en-IE")} kJ</span></div><div><small>Protein</small><b class="num">${T.protein}</b> g</div><div><small>Carbohydrate</small><b class="num">${T.carbs}</b> g</div><div><small>Fat</small><b class="num">${T.fat}</b> g</div><div><small>Fibre</small><b class="num">${T.fibre}</b> g</div></div>
     <button class="opt" data-remind aria-pressed="${p.remind}"><b>Weigh-in reminder on the 1st and 15th</b><small>A quiet note on your diary page twice a month. Nothing pops up.</small></button>
     <p style="font-size:11.5px;color:var(--ink-3);line-height:1.5">Resting energy ${T.bmr.toLocaleString("en-IE")} kcal (Mifflin-St Jeor) × activity${p.persona==="athletic"?" + 10% for training":""}${p.persona==="weight"?` − ${Math.round(p.pace*7700/7)} kcal for ${p.pace} kg a week`:""}. Not medical advice.</p>`; next="Start my diary"; }
-  obEl.innerHTML=`<div class="ob-top">${s>0?`<button class="icon-btn" id="obBack" aria-label="Back">${IC.back}</button>`:`<span style="width:40px"></span>`}<div class="ob-prog">${Array.from({length:steps-1},(_,i)=>`<i class="${i<s?"on":""}"></i>`).join("")}</div><button class="btn-ghost btn btn-sm" id="obSkip">${S.onboarded?"Close":"Skip"}</button></div>
+  obEl.innerHTML=`<div class="ob-top">${s>0?`<button class="icon-btn" id="obBack" aria-label="Back">${IC.back}</button>`:`<span style="width:40px"></span>`}<div class="ob-prog">${Array.from({length:steps-1},(_,i)=>`<i class="${i<s?"on":""}"></i>`).join("")}</div><button class="btn-ghost btn btn-sm" id="obSkip">${required?"Sign out":"Close"}</button></div>
     <div class="ob-body">${body}</div><div class="ob-foot"><button class="btn btn-go" id="obNext">${next}</button></div>`;
-  $("#obSkip").onclick=()=>{S.onboarded=true;persist();closeOb();};
+  // a new account can't skip setup; it can only sign out. Retaking it later can be closed.
+  $("#obSkip").onclick=()=>{ if(required) signOut(); else closeOb(); };
   const back=$("#obBack"); if(back) back.onclick=()=>{ob.step--;renderOb();};
   $$("[data-persona]",obEl).forEach(b=>b.onclick=()=>{p.persona=b.dataset.persona;renderOb();});
-  $$("[data-sex]",obEl).forEach(b=>b.onclick=()=>{p.sex=b.dataset.sex;readBody();renderOb();});
+  $$("[data-sex]",obEl).forEach(b=>b.onclick=()=>{p.sex=b.dataset.sex;readBody(false);renderOb();});
   $$("[data-act-lvl]",obEl).forEach(b=>b.onclick=()=>{p.activity=+b.dataset.actLvl;renderOb();});
   $$("[data-pace]",obEl).forEach(b=>b.onclick=()=>{p.pace=+b.dataset.pace;renderOb();});
   const rm=$("[data-remind]",obEl); if(rm) rm.onclick=()=>{p.remind=!p.remind;rm.setAttribute("aria-pressed",p.remind);};
-  function readBody(){ if(!$("#oAge")) return null; const a=+$("#oAge").value,h=+$("#oH").value,w=+String($("#oW").value).replace(",","."); let e=null,f=null;
-    if(!(a>=16&&a<=100)){e="Age between 16 and 100, please.";f="#oAge";} else if(!(h>=120&&h<=230)){e="Height in centimetres, between 120 and 230.";f="#oH";} else if(!(w>=30&&w<=300)){e="Weight in kilograms, between 30 and 300.";f="#oW";}
-    if(!e){p.age=a;p.height=h;p.weight=w;} return e?{e,f}:null; }
+  /** Checks one body field and shows or clears its message. */
+  function checkField(inp,show=true){ const msg=checkNum(inp.value,RULES[inp.dataset.rule]); const box=$("#"+inp.id+"-err");
+    if(show){ inp.classList.toggle("bad",!!msg); inp.setAttribute("aria-invalid",!!msg); box.innerHTML=msg?`<div class="ink-err" role="alert">${IC.inkErr}<span>${msg}</span></div>`:""; } return msg; }
+  // check each field when the person leaves it, and clear its message as they type
+  $$("[data-rule]",obEl).forEach(i=>{ i.onblur=()=>{ if(i.value.trim()) checkField(i); }; i.oninput=()=>{ i.classList.remove("bad"); $("#"+i.id+"-err").innerHTML=""; }; });
+  /** Saves valid body values; returns the first invalid field, or null when all are valid. */
+  function readBody(show=true){ if(!$("#oAge")) return null; let first=null;
+    $$("[data-rule]",obEl).forEach(i=>{ const m=checkField(i,show); if(m&&!first) first=i; p[i.dataset.rule]=m?i.value.trim():Number(i.value.trim().replace(",",".")); }); // keep what was typed even if not valid yet
+    return first; }
   $("#obNext").onclick=()=>{
-    if(s===2){const r=readBody(); if(r){$$(".inp",obEl).forEach(i=>i.classList.remove("bad"));$(r.f).classList.add("bad");$("#oErr").innerHTML=`<div class="ink-err">${IC.inkErr}<span>${r.e}</span></div>`;return;}}
-    if(s===4){S.profile={...p};S.targets=ob.T;S.onboarded=true;persist();closeOb();setTab("diary");toast(`Targets set: ${ob.T.kcal.toLocaleString("en-IE")} kcal a day`);return;}
+    if(s===2){const bad=readBody(); if(bad){ bad.focus(); buzz(20); return; }}
+    if(s===4){
+      if(required) S.weights[TODAY]=p.weight; // starting weight becomes the first point on the weigh-in chart
+      S.profile={...p};S.targets=ob.T;S.onboarded=true;persist();closeOb();setTab("diary");
+      toast(required?`Your notebook is ready · ${ob.T.kcal.toLocaleString("en-IE")} kcal a day`:`Targets set: ${ob.T.kcal.toLocaleString("en-IE")} kcal a day`);return;}
     ob.step++; renderOb(); $(".ob-body",obEl).scrollTop=0;
   };
 }
+
+/* ================= ACCOUNTS (local to this browser) ================= */
+let A={users:{},session:null,lastEmail:""};
+function loadAccts(){ try{const r=localStorage.getItem(ACCT); if(r) A={users:{},session:null,lastEmail:"",...JSON.parse(r)};}catch(e){} }
+function saveAccts(){ try{localStorage.setItem(ACCT,JSON.stringify(A));}catch(e){storageFailed(e);} }
+const normEmail=e=>String(e).trim().toLowerCase();
+const EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+/** Salted SHA-256, so the password itself is never stored. */
+async function hashPw(pw,salt){
+  try{ const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(salt+":"+pw)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join(""); }
+  catch(e){ let h=5381; for(const c of salt+":"+pw) h=((h<<5)+h+c.charCodeAt(0))>>>0; return "djb2-"+h.toString(16); }
+}
+function startSession(key){
+  ME = key==="demo" ? {id:"demo",name:"Sample diary",email:"",demo:true} : A.users[key];
+  if(!ME) return openAuth("signin");
+  A.session=key; if(!ME.demo) A.lastEmail=ME.email; saveAccts();
+  resetState(); const had=load();
+  if(!had && ME.demo){ seed(); S.onboarded=true; persist(); }
+  if(!S.targets) S.targets=computeTargets(S.profile);
+  if(S.energy!=="kcal"&&S.energy!=="kJ") S.energy="kcal";
+  S.viewDate=TODAY; S.net="online"; closeAuth(); setTab("diary");
+  if(!S.onboarded) openOnboarding();
+}
+function signOut(){
+  persist(); closeProduct(); closeSheet(); closeOb();
+  A.session=null; saveAccts(); ME=null; resetState(); screens.innerHTML="";
+  openAuth("signin"); toast("Signed out");
+}
+
+/* ---------- splash ---------- */
+function showSplash(then){
+  const sp=$("#splash"); sp.hidden=false; sp.classList.remove("open"); let done=false;
+  const finish=()=>{ if(done) return; done=true; then(); requestAnimationFrame(()=>sp.classList.add("open")); setTimeout(()=>{sp.hidden=true;},reduced?0:800); };
+  sp.onclick=finish; setTimeout(finish,reduced?500:2100);
+}
+
+/* ---------- sign in / create account ---------- */
+const authEl=$("#auth"); let authMode="signin";
+function openAuth(mode){ authMode=mode||authMode; renderAuth(); authEl.classList.add("show"); authEl.setAttribute("aria-hidden","false"); authEl.scrollTop=0; }
+function closeAuth(){ authEl.classList.remove("show"); authEl.setAttribute("aria-hidden","true"); }
+function renderAuth(){
+  const create=authMode==="create";
+  const pw=(id,label,ac)=>`<div class="field"><label for="${id}">${label}</label><div class="pw-wrap"><input class="inp" id="${id}" type="password" autocomplete="${ac}"><button type="button" class="pw-toggle" data-pw="${id}" aria-label="Show ${label.toLowerCase()}">Show</button></div><div data-err="${id}"></div></div>`;
+  authEl.innerHTML=`<div class="auth-body">
+    <div class="auth-mark"><b>Lón</b><span>a food diary</span></div>
+    <h2>${create?"Start a new notebook":"Welcome back"}</h2>
+    <p class="lead">${create?"Create an account, then answer a few questions so your daily targets fit you.":"Sign in to open your diary where you left off."}</p>
+    <div class="auth-tabs" role="tablist"><button role="tab" data-mode="signin" aria-selected="${!create}">Sign in</button><button role="tab" data-mode="create" aria-selected="${create}">Create account</button></div>
+    <form class="auth-card" id="authForm" novalidate>
+      ${create?`<div class="field"><label for="aName">Your name</label><input class="inp" id="aName" autocomplete="name" maxlength="40"><div data-err="aName"></div></div>`:""}
+      <div class="field"><label for="aEmail">Email</label><input class="inp" id="aEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="off" value="${create?"":esc(A.lastEmail||"")}"><div data-err="aEmail"></div></div>
+      ${pw("aPw","Password",create?"new-password":"current-password")}
+      ${create?`<div class="field-hint" style="margin-top:-10px">Enter at least 8 characters.</div>${pw("aPw2","Confirm password","new-password")}`:""}
+      ${create?"":`<div class="auth-row"><button type="button" class="auth-link" id="forgotBtn">Forgot password?</button></div><div id="forgotBox"></div>`}
+      <div id="authFail"></div>
+      <button class="btn btn-go btn-block" type="submit" id="authGo">${create?"Create account":"Sign in"}</button>
+    </form>
+    <div class="or">or</div>
+    <button class="btn btn-line btn-block" id="demoBtn">Explore the sample diary</button>
+    <p class="auth-note">${IC.info}<span>This is a prototype. Accounts and diaries are kept only in this browser on this device, and nothing is sent to a server. Use a password you don't use anywhere else.</span></p>
+  </div>`;
+  $$("[data-mode]",authEl).forEach(b=>b.onclick=()=>{authMode=b.dataset.mode;renderAuth();});
+  $$("[data-pw]",authEl).forEach(b=>b.onclick=()=>{const i=$("#"+b.dataset.pw);const show=i.type==="password";i.type=show?"text":"password";b.textContent=show?"Hide":"Show";b.setAttribute("aria-label",(show?"Hide ":"Show ")+b.getAttribute("aria-label").replace(/^(Show|Hide) /,""));});
+  $("#demoBtn").onclick=()=>{ startSession("demo"); toast("Opened the sample diary"); };
+  const fb=$("#forgotBtn"); if(fb) fb.onclick=()=>renderForgot();
+  $("#authForm").onsubmit=e=>{e.preventDefault();submitAuth();};
+  setTimeout(()=>{ const f=create?$("#aName"):(A.lastEmail?$("#aPw"):$("#aEmail")); f&&f.focus({preventScroll:true}); },reduced?0:350);
+}
+// check the email as soon as the person leaves the box
+authEl.addEventListener("focusout",e=>{ const i=e.target; if(i.id!=="aEmail"||!i.value.trim()) return; if(!EMAIL_RE.test(normEmail(i.value))) fieldErr("aEmail","Enter a valid email address, e.g. name@example.ie. Check for a missing @ or dot."); });
+// typing in a field clears its error
+authEl.addEventListener("input",e=>{ if(e.target.classList.contains("inp")){ e.target.classList.remove("bad"); const er=$(`[data-err="${e.target.id}"]`,authEl); if(er) er.innerHTML=""; const f=$("#authFail"); if(f) f.innerHTML=""; } });
+function fieldErr(id,msg){ const i=$("#"+id); i&&i.classList.add("bad"); const h=$(`[data-err="${id}"]`,authEl); if(h) h.innerHTML=`<div class="ink-err" role="alert">${IC.inkErr}<span>${msg}</span></div>`; }
+async function submitAuth(){
+  const go=$("#authGo"); if(go.dataset.busy) return; // block double taps
+  const create=authMode==="create", email=normEmail($("#aEmail").value), pw=$("#aPw").value;
+  $$(".inp",authEl).forEach(i=>i.classList.remove("bad")); $$("[data-err]",authEl).forEach(h=>h.innerHTML=""); $("#authFail").innerHTML="";
+  let bad=false;
+  if(create){ const n=$("#aName").value.trim(); if(!n){fieldErr("aName","Enter your name, up to 40 characters.");bad=true;} }
+  if(!email){fieldErr("aEmail","Enter your email address, e.g. name@example.ie.");bad=true;} else if(!EMAIL_RE.test(email)){fieldErr("aEmail","Enter a valid email address, e.g. name@example.ie. Check for a missing @ or dot.");bad=true;}
+  if(!pw){fieldErr("aPw",create?"Enter a password of at least 8 characters.":"Enter your password.");bad=true;} else if(create&&pw.length<8){fieldErr("aPw",`Enter a password of at least 8 characters. Yours has ${pw.length}.`);bad=true;}
+  if(create&&!bad&&$("#aPw2").value!==pw){fieldErr("aPw2","The passwords don't match. Enter the same password in both boxes.");bad=true;}
+  if(bad){ buzz(20); return; }
+  const label=go.textContent; go.dataset.busy=1; go.disabled=true; go.innerHTML=`<span class="spinner"></span>${create?"Creating your notebook…":"Signing in…"}`;
+  await wait(500);
+  try{
+    if(create){
+      if(A.users[email]){ $("#authFail").innerHTML=`<div class="ink-err" role="alert">${IC.inkErr}<span>An account with this email already exists on this device. <button type="button" class="auth-link" id="toSignin">Sign in instead</button></span></div>`; $("#toSignin").onclick=()=>{authMode="signin";A.lastEmail=email;renderAuth();}; return; }
+      const salt=uid()+uid(); A.users[email]={id:"u"+uid()+uid(),name:$("#aName").value.trim(),email,salt,hash:await hashPw(pw,salt),created:new Date().toISOString()}; saveAccts();
+      startSession(email);
+    } else {
+      const u=A.users[email];
+      if(!u){ $("#authFail").innerHTML=`<div class="ink-err" role="alert">${IC.inkErr}<span>There's no account with this email on this device. <button type="button" class="auth-link" id="toCreate">Create one</button></span></div>`; $("#toCreate").onclick=()=>{authMode="create";renderAuth();$("#aEmail").value=email;}; return; }
+      if(await hashPw(pw,u.salt)!==u.hash){ fieldErr("aPw","That password is wrong. Check Caps Lock and try again, or use Forgot password."); return; }
+      startSession(email); toast(`Welcome back, ${esc(u.name.split(" ")[0])}`);
+    }
+  } finally { if(go.isConnected){ delete go.dataset.busy; go.disabled=false; go.textContent=label; } }
+}
+function renderForgot(){
+  const box=$("#forgotBox"), email=normEmail($("#aEmail").value), u=A.users[email];
+  box.innerHTML=`<div class="forgot">Because this prototype has no server, a forgotten password can't be reset by email. ${u?`You can delete the account for <b>${esc(email)}</b> from this device and create it again. Its diary will be lost.`:"Type the email you signed up with above, then tap Forgot password again."}
+    <div class="row">${u?`<button type="button" class="btn btn-sm btn-danger" id="fgDel">Delete this account</button>`:""}<button type="button" class="btn btn-sm btn-ghost" id="fgCancel">Cancel</button></div></div>`;
+  $("#fgCancel").onclick=()=>box.innerHTML="";
+  const d=$("#fgDel"); if(d) d.onclick=()=>{ if(!d.dataset.armed){d.dataset.armed=1;d.classList.add("btn-armed");d.textContent="Tap again to delete";return;} deleteAccount(email); authMode="create"; renderAuth(); toast("Account deleted from this device"); };
+}
+function deleteAccount(email){ const u=A.users[email]; if(!u) return; try{localStorage.removeItem(STORE_PREFIX+u.id);}catch(e){} delete A.users[email]; if(A.session===email) A.session=null; if(A.lastEmail===email) A.lastEmail=""; saveAccts(); }
 
 /* ================= NAV & GUIDE ================= */
 $$(".tab").forEach(b=>b.onclick=()=>{closeProduct();closeSheet();setTab(b.dataset.tab);});
 $("#addBtn").onclick=()=>{closeProduct();if(S.tab!=="diary")setTab("diary");openAdd(guessMeal());};
 $$("[data-jump]").forEach(b=>b.onclick=()=>{
-  const j=b.dataset.jump; closeProduct(); closeSheet(); closeOb();
+  const j=b.dataset.jump;
+  if(j==="splash"){ closeSheet(); showSplash(()=>{}); return; }
+  if(j==="auth"){ if(ME) signOut(); else openAuth("signin"); return; }
+  // the other flows need a diary: use the sample diary if nobody is signed in or setup isn't finished
+  if(!ME || !S.onboarded){ closeOb(); startSession("demo"); }
+  closeProduct(); closeSheet(); closeOb();
   const toDiary=(k)=>{if(S.tab!=="diary")setTab("diary"); if(k&&k!==S.viewDate)goDate(k);};
   if(j==="onboard") openOnboarding();
   else if(j==="diary") toDiary(TODAY);
@@ -1549,11 +1787,160 @@ $$("[data-jump]").forEach(b=>b.onclick=()=>{
   else if(j==="offline"){ S.net="offline"; toDiary(); openProduct("brennans",{meal:"Dinner"}); toast("Connection set to offline. Try adding this."); }
 });
 
-/* ================= BOOT ================= */
-if(!load()) seed();
-if(!S.targets) S.targets=computeTargets(S.profile);
-if(S.energy!=="kcal"&&S.energy!=="kJ") S.energy="kcal";
-S.viewDate=TODAY; S.tab="diary"; S.net="online";
-render();
+/* ================= TOOLTIPS ================= */
+/* One map of control → help text, applied whenever a screen renders. Mouse: hover. Keyboard: focus. Touch: press and hold. */
+const appEl=$("#app");
+const tipEl=document.createElement("div"); tipEl.className="tip"; tipEl.id="tip"; tipEl.setAttribute("role","tooltip"); tipEl.innerHTML='<span></span><i></i>'; appEl.appendChild(tipEl);
+const prodOf=el=>prodCtx?PM[prodCtx.pid]:null;
+const TIPS=[
+  ['.tab[data-tab="diary"]',"Your daily diary pages"],
+  ['.tab[data-tab="saved"]',"Meals you've saved, ready to log again"],
+  ['#addBtn',"Add food to the page you're viewing"],
+  ['.tab[data-tab="pantry"]',"Browse products from Dunnes Stores, Tesco Ireland and SuperValu"],
+  ['.tab[data-tab="me"]',"Your account, targets, weigh-ins and settings"],
+  ['[data-act="prev"]',"Previous day. You can also swipe right or press ←"],
+  ['[data-act="next"]',"Next day. You can also swipe left or press →"],
+  ['.dhead [data-act="today"]',"Jump back to today's page"],
+  ['.wd',el=>{const k=el.dataset.date,es=S.diary[k]||[];const kc=es.length?Math.round(dayTotals(k).tot.kcal):0;return `${fmtShort(k)}: ${es.length?`${kc.toLocaleString("en-IE")} kcal logged`:"nothing logged"}${isWeighDay(k)?" · weigh-in day":""}`;}],
+  ['[data-act="month"]',"Open the month calendar"],
+  ['[data-act="unit"]',"Switch between kilocalories (kcal) and kilojoules (kJ)"],
+  ['.kstamp .big',"Energy eaten on this page"],
+  ['.mac',el=>`${el.querySelector(".n").textContent}: ${el.querySelector(".v").textContent.replace("/"," eaten of ")} target`],
+  ['.energy-bar',"Share of your daily energy target eaten. The stamp appears between 90% and 110%"],
+  ['.minor',"Other nutrients from the pack labels. * means some items don't list that value"],
+  ['.partial',"Missing values are never counted as zero, so these totals may be a little low"],
+  ['.tag-pend',"Saved on this phone only. It will sync when you're back online"],
+  ['[data-act="sync"]',"Try sending unsynced entries now"],
+  ['[data-act="sync-discard"]',"Delete the entries that haven't synced. Tap twice to confirm"],
+  ['[data-act="meal-more"]',"Meal options: add food, save as a meal, copy or clear"],
+  ['.add-line',"Add another food to this meal"],
+  ['.blank',"Tap to add food to this meal"],
+  ['.entry',"Tap to change the amount, move it to another meal or delete it"],
+  ['#wIn',`Your weight in kilograms, ${hintFor(RULES.weighIn)}. Weigh before breakfast for a fair comparison`],
+  ['[data-act="weigh-save"]',"Save this weigh-in"],
+  ['[data-act="weigh-skip"]',"Skip this weigh-in. The next reminder comes on the 1st or 15th"],
+  ['[data-act="weigh-edit"]',"Correct this weigh-in"],
+  ['[data-act="weigh-delete"]',"Delete this weigh-in. Tap twice to confirm"],
+  ['#sheetX',"Close without saving"],
+  ['#sheetBack',"Go back"],
+  ['.mode[data-mode="search"]',"Search by product or brand name"],
+  ['.mode[data-mode="barcode"]',"Scan the barcode on the pack"],
+  ['.mode[data-mode="photo"]',"Photograph your plate to find the foods on it"],
+  ['.mode[data-mode="voice"]',"Say what you ate, e.g. “two slices of toast and a mug of tea”"],
+  ['#addMeal',"Which meal the food is written under"],
+  ['#qClear, #pqClear',"Clear the search"],
+  ['.bc',el=>`Scan barcode ${IMG[el.dataset.scan].off} (simulated)`],
+  ['#detect',"Find foods in the photo (simulated in this prototype)"],
+  ['#phLbl',"Take or choose a photo of your meal: JPG, PNG or HEIC, up to 15 MB"],
+  ['#phRemove',"Remove your photo and use the sample photo again"],
+  ['#mic',el=>el.classList.contains("on")?"Stop listening":"Start listening (simulated: plays a sample phrase)"],
+  ['#vtype',"Type it the way you'd say it, then press Enter"],
+  ['#vClear',"Clear what was heard and start again"],
+  ['[data-quick]',"Add this one item to the meal"],
+  ['#addAll',"Add every item listed above to the meal"],
+  ['.res',"Open the product to check details and add it"],
+  ['#pBack',el=>el.getAttribute("aria-label")],
+  ['.price',"Shelf price at this shop (sample data)"],
+  ['.p-facts > div:nth-child(1)',el=>`Energy per 100 ${prodOf()?.basis||"g"} as sold`],
+  ['.p-facts > div:nth-child(2)',"One standard serving, as defined on the pack"],
+  ['.p-facts > div:nth-child(3)',"Lowest price across the shops"],
+  ['#qIn',el=>`How much you had: ${qtyHint($("#uIn")?.value||"g")}`],
+  ['#uIn',"Grams, millilitres or the pack's serving sizes. Switching unit converts the amount"],
+  ['#mIn',"Which meal this entry is written under"],
+  ['#logBtn',el=>el.textContent.startsWith("Update")?"Save your changes to this entry":"Write this food into your diary"],
+  ['#cancelBtn',"Go back without saving"],
+  ['#delBtn',"Delete this entry. Tap twice to confirm; you can undo"],
+  ['#vpExplode',"Pack the ingredients back in, or float them out"],
+  ['#vpReset',"Reset the 3D view"],
+  ['#vp canvas',"Drag to turn, scroll to zoom, tap an ingredient to read about it"],
+  ['#nSeg [data-b="100"]',el=>`Values per 100 ${prodOf()?.basis||"g"}`],
+  ['#nSeg [data-b="srv"]',"Values for one serving"],
+  ['#nSeg [data-b="you"]',"Values for the amount you entered above"],
+  ['.ntab th:last-child',"% of the Reference Intake for an average adult (8,400 kJ / 2,000 kcal)"],
+  ['.na',"The retailer or pack doesn't state this value, so it's left out of your totals"],
+  ['.al-chip:not(.al-may)',"Allergen declared on the pack"],
+  ['.al-may',"Precautionary “may contain” warning on the pack"],
+  ['.chip[data-act="retailer"]',el=>el.dataset.v==="all"?"Show products from every shop":`Show products sold at ${RET[el.dataset.v].n}`],
+  ['.cat-row',"Open the product's details, nutrition and 3D view"],
+  ['[data-saved]',"Write this meal into the page you're viewing. You can adjust portions first"],
+  ['[data-act="saved-rename"]',"Change this meal's name"],
+  ['[data-act="saved-delete"]',"Delete this saved meal. Tap twice to confirm; you can undo"],
+  ['.sm-row input[type=checkbox]',"Include or leave out this item"],
+  ['.sm-row .inp',el=>{const u=el.closest(".sm-row").querySelector(".u").textContent.trim();return "Amount for today only: "+qtyHint(u==="g"||u==="ml"?u:"srv:0");}],
+  ['#lsMeal',"Which meal these items are written under"],
+  ['[data-act="energy"][data-v="kcal"]',"Show energy in kilocalories"],
+  ['[data-act="energy"][data-v="kJ"]',"Show energy in kilojoules (1 kcal = 4.184 kJ)"],
+  ['[data-act="remind"]',"A quiet weigh-in note on your diary page on the 1st and 15th"],
+  ['[data-act="net"][data-v="online"]',"Saves work normally"],
+  ['[data-act="net"][data-v="flaky"]',"About half of saves fail, to test error recovery"],
+  ['[data-act="net"][data-v="offline"]',"Every save fails, to test offline recovery"],
+  ['[data-act="retake"]',"Answer the setup questions again to update your targets"],
+  ['[data-act="signout"]',"Sign out on this device. Your diary stays saved here"],
+  ['[data-act="acct-delete"]',"Permanently delete your account and diary from this device. Tap twice to confirm"],
+  ['[data-act="reset"]',"Put back the original example entries"],
+  ['[data-persona="athletic"]',"Higher energy and protein (1.8 g per kg) to fuel training"],
+  ['[data-persona="general"]',"Energy to keep your weight steady, with 1.4 g protein per kg"],
+  ['[data-persona="weight"]',"A gentle calorie deficit with 1.6 g protein per kg to stay full"],
+  ['[data-sex]',"Used only in the resting-energy equation"],
+  ['[data-act-lvl]',el=>`Your resting energy is multiplied by ${el.dataset.actLvl}`],
+  ['[data-pace]',el=>`Plan to lose about ${el.dataset.pace} kg a week (−${Math.round(el.dataset.pace*7700/7)} kcal a day)`],
+  ['[data-remind]',"Adds a quiet weigh-in note to your diary on the 1st and 15th"],
+  ['#oAge',`Your age in whole years, ${hintFor(RULES.age)}`],
+  ['#oH',`Your height in centimetres, ${hintFor(RULES.height)}`],
+  ['#oW',`Your weight in kilograms, ${hintFor(RULES.weight)}`],
+  ['#obBack',"Back to the previous question"],
+  ['#obSkip',el=>el.textContent.trim()==="Sign out"?"Sign out. You'll finish setup next time you sign in":"Close without changing your targets"],
+  ['[data-mode="signin"]',"Open the diary on an account you've already made on this device"],
+  ['[data-mode="create"]',"Make a new account on this device"],
+  ['.pw-toggle',"Show or hide what you typed"],
+  ['#aEmail',"The email you use for this account, e.g. name@example.ie"],
+  ['#forgotBtn',"Options if you can't remember your password"],
+  ['#demoBtn',"Open a filled-in example diary without making an account"],
+];
+/** Gives every matching control a data-tip (text or a function evaluated when shown). */
+function applyTips(root){ TIPS.forEach(([sel,t])=>{ (root.matches&&root.matches(sel)?[root]:[]).concat([...root.querySelectorAll(sel)]).forEach(el=>{ if(!el.dataset.tip){ el.dataset.tip=typeof t==="function"?"fn":t; if(typeof t==="function") el._tipFn=t; } }); }); }
+new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{ if(n.nodeType===1) applyTips(n); }))).observe(appEl,{childList:true,subtree:true});
+applyTips(appEl);
+let tipFor=null, tipTimer=null, holdTimer=null, holdStart=null, swallowClick=false;
+function tipText(el){ let t=el.dataset.tip; if(t==="fn"){ const fn=el._tipFn||TIPS.find(([s])=>el.matches(s))?.[1]; try{ t=typeof fn==="function"?fn(el):""; }catch(e){ t=""; } } return t; }
+function showTip(el){
+  const text=tipText(el); if(!text||!el.isConnected) return hideTip();
+  tipEl.firstChild.textContent=text; tipEl.classList.remove("below");
+  const a=appEl.getBoundingClientRect(), r=el.getBoundingClientRect(), w=tipEl.offsetWidth, h=tipEl.offsetHeight;
+  let top=r.top-a.top-h-10; if(top<8){ top=r.bottom-a.top+10; tipEl.classList.add("below"); }
+  const cx=r.left-a.left+r.width/2, left=Math.max(8,Math.min(a.width-w-8,cx-w/2));
+  tipEl.style.left=left+"px"; tipEl.style.top=top+"px"; tipEl.lastChild.style.left=Math.max(10,Math.min(w-20,cx-left-5))+"px";
+  tipEl.classList.add("show");
+  // link the tooltip for screen readers, remembering any description the control already had
+  el._descPrev=el.getAttribute("aria-describedby"); el.setAttribute("aria-describedby",el._descPrev?el._descPrev+" tip":"tip"); tipFor=el;
+}
+function hideTip(){ clearTimeout(tipTimer); tipEl.classList.remove("show");
+  if(tipFor){ tipFor._descPrev?tipFor.setAttribute("aria-describedby",tipFor._descPrev):tipFor.removeAttribute("aria-describedby"); } tipFor=null; }
+// mouse: hover after a short pause
+document.addEventListener("pointerover",e=>{ if(e.pointerType!=="mouse") return; const el=e.target.closest("[data-tip]"); if(el===tipFor) return; clearTimeout(tipTimer); if(!el||!appEl.contains(el)) return hideTip(); tipTimer=setTimeout(()=>showTip(el),400); });
+// keyboard: show on focus
+document.addEventListener("focusin",e=>{ const el=e.target.closest&&e.target.closest("[data-tip]"); if(el&&appEl.contains(el)&&el.matches(":focus-visible")) showTip(el); else hideTip(); });
+document.addEventListener("focusout",()=>hideTip());
+// touch: press and hold shows the tip without triggering the control
+document.addEventListener("pointerdown",e=>{ if(tipFor&&e.pointerType!=="mouse") hideTip(); if(e.pointerType==="mouse") return; const el=e.target.closest("[data-tip]"); if(!el||!appEl.contains(el)) return; holdStart={x:e.clientX,y:e.clientY}; holdTimer=setTimeout(()=>{ showTip(el); swallowClick=true; buzz(8); },550); });
+document.addEventListener("pointermove",e=>{ if(holdStart&&Math.hypot(e.clientX-holdStart.x,e.clientY-holdStart.y)>10){ clearTimeout(holdTimer); holdStart=null; } });
+document.addEventListener("pointerup",()=>{ clearTimeout(holdTimer); holdStart=null; if(swallowClick) setTimeout(()=>{ hideTip(); },1800); });
+document.addEventListener("click",e=>{ if(swallowClick){ swallowClick=false; e.preventDefault(); e.stopPropagation(); } },true);
+document.addEventListener("contextmenu",e=>{ if(tipFor) e.preventDefault(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") hideTip(); });
+document.addEventListener("pointerdown",e=>{ if(e.pointerType==="mouse"&&tipFor) hideTip(); });
+appEl.addEventListener("scroll",hideTip,true);
+
+/* ================= UNEXPECTED ERRORS ================= */
+let lastErrAt=0;
+function unexpected(){ const now=Date.now(); if(now-lastErrAt<4000) return; lastErrAt=now; toast("Something went wrong with that action. Your diary is safe. Try again, or reload the page if it keeps happening."); }
+window.addEventListener("error",e=>{ if(e.filename&&!/index\.html|^$|artifact/.test(e.filename)&&e.filename!==location.href) return; unexpected(); });
+window.addEventListener("unhandledrejection",()=>unexpected());
+
+/* ================= BOOT: splash → sign in / create account → onboarding → diary ================= */
+loadAccts();
+const resume=A.session && (A.session==="demo" || A.users[A.session]);
+if(!resume) openAuth(Object.keys(A.users).length?"signin":"create"); // ready underneath the splash
+showSplash(()=>{ if(resume) startSession(A.session); });
 })();
 </script>
